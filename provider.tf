@@ -1,6 +1,6 @@
 provider "opentelekomcloud" {
-  access_key  = "FZFFMJO6LHDIZF1JLEUJ"
-  secret_key  = var.secret_key
+  access_key  = var.otc_access_key
+  secret_key  = var.otc_secret_key
   domain_name = "OTC-EU-DE-00000000001000041103"
   tenant_name = "eu-de"
   auth_url    = "https://iam.eu-de.otc.t-systems.com/v3"
