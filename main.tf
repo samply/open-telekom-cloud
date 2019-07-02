@@ -36,12 +36,24 @@ resource "opentelekomcloud_vpc_v1" "vpc" {
   cidr = "192.168.0.0/16"
 }
 
+resource "opentelekomcloud_dns_zone_v2" "default" {
+  name = "gba.io."
+  email = "private@gba.io"
+  description = "GBA-Zone"
+  ttl = 3000
+  type = "private"
+  router {
+    router_id = opentelekomcloud_vpc_v1.vpc.id
+    router_region = "eu-de"
+  }
+}
+
 resource "opentelekomcloud_vpc_subnet_v1" "default" {
   name = "default"
   cidr = "192.168.0.0/24"
   gateway_ip = "192.168.0.1"
   primary_dns = "100.125.4.25"
-  secondary_dns = "8.8.8.8"
+  secondary_dns = "100.125.129.199"
   vpc_id = opentelekomcloud_vpc_v1.vpc.id
 }
 
@@ -49,14 +61,14 @@ data "opentelekomcloud_networking_secgroup_v2" "default" {
   name = "default"
 }
 
-resource "opentelekomcloud_rds_instance_v3" "database" {
+resource "opentelekomcloud_rds_instance_v3" "postgres" {
   availability_zone = ["eu-de-01"]
   db {
     password = var.db_passwd
     type = "PostgreSQL"
     version = "9.6"
   }
-  name = "database"
+  name = "postgres"
 
   security_group_id = data.opentelekomcloud_networking_secgroup_v2.default.id
   subnet_id = opentelekomcloud_vpc_subnet_v1.default.id
@@ -69,10 +81,20 @@ resource "opentelekomcloud_rds_instance_v3" "database" {
 
   flavor = "rds.pg.c2.medium"
 
+
   backup_strategy {
     start_time = "08:00-09:00"
     keep_days = 3
   }
+}
+
+resource "opentelekomcloud_dns_recordset_v2" "postgres" {
+  zone_id = opentelekomcloud_dns_zone_v2.default.id
+  name = "postgres.gba.io."
+  description = "Postgres"
+  ttl = 3000
+  type = "A"
+  records = opentelekomcloud_rds_instance_v3.postgres.private_ips
 }
 
 data "ignition_config" "server" {
@@ -99,6 +121,15 @@ resource "opentelekomcloud_compute_instance_v2" "server" {
   }
 }
 
+resource "opentelekomcloud_dns_recordset_v2" "server" {
+  zone_id = opentelekomcloud_dns_zone_v2.default.id
+  name = "server.gba.io."
+  description = "Server"
+  ttl = 3000
+  type = "A"
+  records = [opentelekomcloud_compute_instance_v2.server.network[0].fixed_ip_v4]
+}
+
 resource "opentelekomcloud_networking_floatingip_v2" "server" {
   pool = "admin_external_net"
 }
@@ -108,3 +139,4 @@ resource "opentelekomcloud_compute_floatingip_associate_v2" "server" {
   instance_id = opentelekomcloud_compute_instance_v2.server.id
   fixed_ip    = opentelekomcloud_compute_instance_v2.server.network[0].fixed_ip_v4
 }
+
