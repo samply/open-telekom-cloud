@@ -31,6 +31,17 @@ data "ignition_user" "bkroll" {
   ]
 }
 
+data "ignition_user" "dolchchr" {
+  name                = "dolchchr"
+  groups              = [
+    "wheel",
+    "docker"
+  ]
+  ssh_authorized_keys = [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMnqlHO7WFRCpFsyR+J9kiDEeCnbsnT2zxLqOJvNQPM6Np0+eOUeVsW7BkU7fwKo6BotqeGr971ig+GKmH+c+23yzz4QxT6H74yAG1wz5KrSZ3ePOYcJQL5DesbjP5RBga2U9Nrj/HvdQrefbOyAsyoVJEGhUhEEh+gVqvbDa5BtvgbUAxKYGNyadGGoyzITVe+EHdlJULmc/UvKm9tUdI3Rt8+D27Ol9q8G5ZcgKRqnBfRauNsW2q7d8jSA6t0rpH05sdWY9JTc2DudHMHwbn2ot9MT2ebqNoHSaNiNwRrFVxmWvf3+vYbxOOWQUCY+j2FozMf1Fdik9BwAA3Sb8T dolchchr"
+  ]
+}
+
 resource "opentelekomcloud_vpc_v1" "vpc" {
   name = var.vpc_name
   cidr = "192.168.0.0/16"
@@ -101,7 +112,8 @@ data "ignition_config" "server" {
   users   = [
     data.ignition_user.martinbreu.id,
     data.ignition_user.akiel.id,
-    data.ignition_user.bkroll.id
+    data.ignition_user.bkroll.id,
+    data.ignition_user.dolchchr.id
   ]
 }
 
