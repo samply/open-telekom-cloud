@@ -142,12 +142,15 @@ resource "opentelekomcloud_dns_recordset_v2" "server" {
   records = [opentelekomcloud_compute_instance_v2.server.network[0].fixed_ip_v4]
 }
 
-resource "opentelekomcloud_networking_floatingip_v2" "server" {
-  pool = "admin_external_net"
+locals {
+  elastic_ips = {
+    "vpc-prod" = "80.158.32.82"
+    "vpc-test" = "80.158.36.176"
+  }
 }
 
 resource "opentelekomcloud_compute_floatingip_associate_v2" "server" {
-  floating_ip = opentelekomcloud_networking_floatingip_v2.server.address
+  floating_ip = local.elastic_ips[var.vpc_name]
   instance_id = opentelekomcloud_compute_instance_v2.server.id
   fixed_ip    = opentelekomcloud_compute_instance_v2.server.network[0].fixed_ip_v4
 }
