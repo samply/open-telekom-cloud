@@ -48,8 +48,8 @@ resource "opentelekomcloud_vpc_v1" "vpc" {
 }
 
 resource "opentelekomcloud_dns_zone_v2" "default" {
-  name = "gba.io."
-  email = "private@gba.io"
+  name = "openstacklocal."
+  email = "notify@germanbiobanknode.de"
   description = "GBA-Zone"
   ttl = 3000
   type = "private"
@@ -101,7 +101,7 @@ resource "opentelekomcloud_rds_instance_v3" "postgres" {
 
 resource "opentelekomcloud_dns_recordset_v2" "postgres" {
   zone_id = opentelekomcloud_dns_zone_v2.default.id
-  name = "postgres.gba.io."
+  name = "postgres.openstacklocal."
   description = "Postgres"
   ttl = 3000
   type = "A"
@@ -135,7 +135,7 @@ resource "opentelekomcloud_compute_instance_v2" "server" {
 
 resource "opentelekomcloud_dns_recordset_v2" "server" {
   zone_id = opentelekomcloud_dns_zone_v2.default.id
-  name = "server.gba.io."
+  name = "server.openstacklocal."
   description = "Server"
   ttl = 3000
   type = "A"
