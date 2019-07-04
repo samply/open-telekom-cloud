@@ -3,7 +3,7 @@ data "template_file" "searchbroker_service" {
 
   vars = {
     version = "2.2.0"
-    mail_host = "mail.imise.uni-leipzig.de"
+    mail_host = "out-cloud.mms.t-systems-service.com"
     mail_from_address = "no-reply@germanbiobanknode.de"
     mail_from_name = "Sample Locator"
     auth_host = "https://auth.dev.germanbiobanknode.de"
