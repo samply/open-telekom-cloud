@@ -1,0 +1,30 @@
+[Unit]
+Description=Searchbroker UI
+After=docker.service,haveged.service
+Requires=docker.service
+
+[Service]
+EnvironmentFile=/mnt/secrets/searchbroker-ui
+ExecStartPre=-/usr/bin/docker kill searchbroker-ui
+ExecStartPre=-/usr/bin/docker rm searchbroker-ui
+ExecStartPre=/usr/bin/docker pull akiel/searchbroker-ui:${version}
+ExecStart=/usr/bin/docker run \
+  --name=searchbroker-ui \
+  --network=searchbroker \
+  -e SEARCHBROKER_URL='http://searchbroker:8080/broker' \
+  -e NEGOTIATOR_URL='${negotiator_url}' \
+  -e AUTH_CLIENT_ID='${auth_client_id}' \
+  -e AUTH_CLIENT_SECRET='$${AUTH_CLIENT_SECRET}' \
+  -e AUTH_HOST='${auth_host}' \
+  -e AUTH_PUBLIC_KEY='${auth_public_key}' \
+  -e MDR_API_URL='${mdr_api_url}' \
+  -e MDR_NAMESPACE='${mdr_namespace}' \
+  -e MDR_LANGUAGE='${mdr_language}' \
+  -e MDR_MAPPING='${mdr_mapping}' \
+  -e MDR_HIDDEN='${mdr_hidden}' \
+  -e CATALINA_OPTS='"-Xmx1g"' \
+  akiel/searchbroker-ui:${version}
+ExecStop=/usr/bin/docker stop searchbroker-ui
+
+[Install]
+WantedBy=multi-user.target

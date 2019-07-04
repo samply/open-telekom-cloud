@@ -1,0 +1,31 @@
+[Unit]
+Description=Searchbroker
+After=docker.service,haveged.service
+Requires=docker.service
+
+[Service]
+EnvironmentFile=/mnt/secrets/searchbroker
+ExecStartPre=-/usr/bin/docker kill searchbroker
+ExecStartPre=-/usr/bin/docker rm searchbroker
+ExecStartPre=-/usr/bin/docker network create searchbroker
+ExecStartPre=/usr/bin/docker pull martinbreu/searchbroker:${version}
+ExecStart=/usr/bin/docker run \
+  --name=searchbroker \
+  --network=searchbroker \
+  -e POSTGRES_HOST='postgres.openstacklocal' \
+  -e POSTGRES_DB='searchbroker' \
+  -e POSTGRES_PORT='5432' \
+  -e POSTGRES_USER='searchbroker' \
+  -e POSTGRES_PASS='$${POSTGRES_PASS}' \
+  -e MAIL_HOST='${mail_host}' \
+  -e MAIL_FROM_ADDRESS='${mail_from_address}' \
+  -e MAIL_FROM_NAME='${mail_from_name}' \
+  -e AUTH_HOST='${auth_host}' \
+  -e AUTH_PUBLIC_KEY='${auth_public_key}' \
+  -e AUTH_CLIENT_ID='${auth_client_id}' \
+  -e CATALINA_OPTS='"-Xmx2g"' \
+  martinbreu/searchbroker:${version}
+ExecStop=/usr/bin/docker stop searchbroker
+
+[Install]
+WantedBy=multi-user.target

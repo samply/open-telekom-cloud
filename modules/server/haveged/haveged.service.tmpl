@@ -1,0 +1,15 @@
+[Unit]
+Description=haveged
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStartPre=/usr/bin/docker pull storytel/haveged
+ExecStartPre=-/usr/bin/docker rm -f haveged
+ExecStart=/usr/bin/docker run --name haveged --privileged storytel/haveged
+ExecStop=/usr/bin/docker stop haveged
+TimeoutStartSec=1m
+
+[Install]
+WantedBy=multi-user.target

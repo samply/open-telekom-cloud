@@ -1,0 +1,20 @@
+[Unit]
+Description=Nginx
+After=docker.service,searchbroker.service,searchbroker-ui.service
+Requires=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill nginx
+ExecStartPre=-/usr/bin/docker rm nginx
+ExecStartPre=/usr/bin/docker pull nginx:${version}
+ExecStart=/usr/bin/docker run \
+  --name=nginx \
+  --network=searchbroker \
+  -v /etc/nginx/conf.d:/etc/nginx/conf.d:ro \
+  -v /etc/nginx/ssl:/etc/nginx/ssl:ro \
+  -p 443:443 -p 80:80 \
+  nginx:${version}
+ExecStop=/usr/bin/docker stop nginx
+
+[Install]
+WantedBy=multi-user.target
