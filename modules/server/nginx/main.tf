@@ -1,3 +1,16 @@
+data "template_file" "auth_config" {
+  template = file("${path.module}/auth.conf.tmpl")
+}
+
+data "ignition_file" "auth_config" {
+  filesystem = "root"
+  path       = "/etc/nginx/conf.d/auth.conf"
+  mode       = "0644"
+  content {
+    content = data.template_file.auth_config.rendered
+  }
+}
+
 data "template_file" "searchbroker_config" {
   template = file("${path.module}/searchbroker.conf.tmpl")
 }
