@@ -7,7 +7,7 @@ Requires=docker.service
 EnvironmentFile=/mnt/secrets/searchbroker-ui
 ExecStartPre=-/usr/bin/docker kill searchbroker-ui
 ExecStartPre=-/usr/bin/docker rm searchbroker-ui
-ExecStartPre=/usr/bin/docker pull akiel/searchbroker-ui:${version}
+ExecStartPre=/usr/bin/docker pull martinbreu/searchbroker-ui:${version}
 ExecStart=/usr/bin/docker run \
   --name=searchbroker-ui \
   --network=searchbroker \
@@ -23,7 +23,7 @@ ExecStart=/usr/bin/docker run \
   -e MDR_MAPPING='${mdr_mapping}' \
   -e MDR_HIDDEN='${mdr_hidden}' \
   -e CATALINA_OPTS='"-Xmx1g"' \
-  akiel/searchbroker-ui:${version}
+  martinbreu/searchbroker-ui:${version}
 ExecStop=/usr/bin/docker stop searchbroker-ui
 
 [Install]

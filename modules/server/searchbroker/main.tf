@@ -21,7 +21,7 @@ data "template_file" "searchbroker_ui_service" {
   template = file("${path.module}/searchbroker-ui.service.tmpl")
 
   vars = {
-    version = "2.3.3"
+    version = "6e41bbd9c8c77713d053c1b7a6d6f3d9b06081d3"
     negotiator_url = "https://negotiator.germanbiobanknode.de"
     auth_client_id = "productive-searchbroker-ui"
     auth_host = "https://auth.dev.germanbiobanknode.de"
