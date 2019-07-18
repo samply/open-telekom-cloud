@@ -1,0 +1,31 @@
+[Unit]
+Description=MDR
+After=docker.service,haveged.service
+Requires=docker.service
+
+[Service]
+EnvironmentFile=/mnt/secrets/mdr
+ExecStartPre=-/usr/bin/docker kill mdr
+ExecStartPre=-/usr/bin/docker rm mdr
+ExecStartPre=-/usr/bin/docker network create searchbroker
+ExecStartPre=/usr/bin/docker pull martinbreu/mdr:${version}
+ExecStart=/usr/bin/docker run \
+  --name=mdr \
+  --network=searchbroker \
+  -e TOMCAT_USERNAME='admin' \
+  -e TOMCAT_PASSWORD='$${TOMCAT_PASS}' \
+  -e POSTGRES_HOST='postgres.openstacklocal' \
+  -e POSTGRES_DB='mdr' \
+  -e POSTGRES_PORT='5432' \
+  -e POSTGRES_USER='mdr' \
+  -e POSTGRES_PASS='$${POSTGRES_PASS}' \
+  -e AUTH_HOST='${auth_host}' \
+  -e AUTH_PUBLIC_KEY='${auth_public_key}' \
+  -e AUTH_CLIENT_ID='${auth_client_id}' \
+  -e AUTH_CLIENT_SECRET='$${AUTH_CLIENT_SECRET}' \
+  -e CATALINA_OPTS='"-Xmx2g"' \
+  martinbreu/mdr:${version}
+ExecStop=/usr/bin/docker stop mdr
+
+[Install]
+WantedBy=multi-user.target

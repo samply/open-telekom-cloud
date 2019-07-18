@@ -15,6 +15,10 @@ module "searchbroker" {
   source = "./searchbroker"
 }
 
+module "mdr" {
+  source = "./mdr"
+}
+
 data "ignition_filesystem" "secrets" {
   name = "secrets"
 
@@ -73,7 +77,9 @@ data "ignition_config" "server" {
     module.nginx.nginx_service,
     module.haveged.haveged_service,
     module.searchbroker.searchbroker_service,
-    module.searchbroker.searchbroker_ui_service
+    module.searchbroker.searchbroker_ui_service,
+    module.mdr.mdr_service,
+    module.mdr.mdr_ui_service
   ]
   users       = [
     module.users.core
@@ -88,7 +94,8 @@ data "ignition_config" "server" {
   files       = [
     data.ignition_file.hostname.id,
     module.nginx.searchbroker_config_file,
-    module.nginx.auth_config_file
+    module.nginx.auth_config_file,
+    module.nginx.mdr_config_file
   ]
 }
 
