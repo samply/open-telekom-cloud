@@ -10,7 +10,7 @@ data "template_file" "mdr_service" {
 }
 
 data "ignition_systemd_unit" "mdr_service" {
-  name    = "searchbroker.service"
+  name    = "mdr.service"
   content = data.template_file.mdr_service.rendered
 }
 
