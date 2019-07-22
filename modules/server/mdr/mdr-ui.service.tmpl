@@ -1,13 +1,12 @@
 [Unit]
 Description=MDR UI
-After=docker.service,haveged.service
+After=docker.service,haveged.service,searchbroker.service
 Requires=docker.service
 
 [Service]
 EnvironmentFile=/mnt/secrets/mdr
 ExecStartPre=-/usr/bin/docker kill mdr-ui
 ExecStartPre=-/usr/bin/docker rm mdr-ui
-ExecStartPre=-/usr/bin/docker network create searchbroker
 ExecStartPre=/usr/bin/docker pull martinbreu/mdr-ui:${version}
 ExecStart=/usr/bin/docker run \
   --name=mdr-ui \
