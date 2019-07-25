@@ -2,10 +2,10 @@ data "template_file" "mdr_service" {
   template = file("${path.module}/mdr.service.tmpl")
 
   vars = {
-    version = "4.0.3-SNAPSHOT"
-    auth_host = "https://auth.dev.germanbiobanknode.de"
-    auth_public_key = "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA/D51sGPXYNn/2cYYxCB5bP0JMRrWXhn3qmCIwrJCO8VgmsT9DiRJz/EmiP6qOrC3NMYSaELBGgaQeb690mqIMxY/5qkfIbNJYuV7F2gcPQFWxY2neO24XnFXQqsA0PcdlF5lB0HPCYKoqjV1hVtBl9IS8/v8mJ1FMa4oifGD8AqrLEQkItkEK+yg53rbs0sxlEFYp1U4gogmW6MdQ1ZDfCLiL6eWBFWRpHZAzXxfkauoxcccReH6hv7DPkI3ngxxARx8ivcLS+psJOe8RL2LrlS49flbazOWBmG/f3DFdoEcXYcraSnFc9lx7SJK4xsL6mBv6Tc1Qtf0nuAG+3bLICe9M0pE62z9wSVebe4F7htfElSr7MS2EMXX5iW0whe1RrsPojPY12ZEKOL7WGvJTyDOnA2Nzp22p5Ii/wru1uNaD/7xsw4OcMxHaYFi87dJSbsfx1OEXP3Co+zWZ2B1WdV83bvlx7NNHsATYeQuKG7IeBco+oYoXAjOk7IBlc0M6WqOpuXuBNXOGpvPR4aRd0COYXIZd+DqoK3ZLCr7gEYHHeCUx6Y8cKLK4sxbhHjGqusjVEPYdM46txSawNNIhp0LtfDilWWwecYX3N0WIPFElfKL43tIrjVrzsfL7nECsapVByhqBGFZX+mY2gEprBnqDCrVeUELmKiwm+ioQtkCAwEAAQ=="
-    auth_client_id = "mdr-client-id"
+    version = "307"
+    auth_host = "https://login.mitro.dkfz.de"
+    auth_public_key = "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyOLKpu4syqh/ZHWF6cyY4wj3PKtPYCiZsMA56FQlIjmYs3Xa5dz9GcZg2nVFb4nKIc64crpBPWRmEQH8xYJQYmKx51IRCUN/Zh0OSRjLUbQnuivMZyTn2fyjkcTZFyyZfyyF2bUWyTfOINRNUVzPBOD+vtO5LHhCizrzqCOX8pidWoO5HWgkdIJ2/vsOYxhheAiRi8HI/o6qZyFcTua1JIUVfNG/1R9RHCqr5pm49a6+ffoh2T3fii/pQJ4JFLKu3nZG5Y82gP2al/IsAT23+FnLwqmKKTYxINbB/wwJpKVo4Rda74IbfYJoDWQgZHWWL/fFbbq/RXeRqBbYuHW51vdGB5F4EGV3u+9c+/rTvXTnGQAZjIpNbLtu14dUCT0KP/TSJ0vJ+2jRzTbQb1Q/ME1rHNPOZWb67j4qJUzKnymPsGkSM9m6sOSZgh7Xtf8ST1/K9GWHqwzG5JO+UpmdbrBvveRZSJWzXYry3u+6XqhTaEKSoDY428vaIXkTq8LFfNxilpF25PLzolbhmKCWgezsTHyg5Z08ys9teGhenraQBtBrsAQMVaJpZxYGpv8BCbQnyOQbUwxSGEexa4iqEyUYUBx3dgX3iybBKbUm9S7CYj6tuvkTbfMQkqdS3bRJIGfftUv81AJ5aC6S/I+UZhwqVJKy/5HtGdf8HKh+Gc0CAwEAAQ=="
+    auth_client_id = "gba-mdr"
   }
 }
 
@@ -18,10 +18,10 @@ data "template_file" "mdr_ui_service" {
   template = file("${path.module}/mdr-ui.service.tmpl")
 
   vars = {
-    version = "2.0.5-SNAPSHOT"
-    auth_host = "https://auth.dev.germanbiobanknode.de"
-    auth_public_key = "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA/D51sGPXYNn/2cYYxCB5bP0JMRrWXhn3qmCIwrJCO8VgmsT9DiRJz/EmiP6qOrC3NMYSaELBGgaQeb690mqIMxY/5qkfIbNJYuV7F2gcPQFWxY2neO24XnFXQqsA0PcdlF5lB0HPCYKoqjV1hVtBl9IS8/v8mJ1FMa4oifGD8AqrLEQkItkEK+yg53rbs0sxlEFYp1U4gogmW6MdQ1ZDfCLiL6eWBFWRpHZAzXxfkauoxcccReH6hv7DPkI3ngxxARx8ivcLS+psJOe8RL2LrlS49flbazOWBmG/f3DFdoEcXYcraSnFc9lx7SJK4xsL6mBv6Tc1Qtf0nuAG+3bLICe9M0pE62z9wSVebe4F7htfElSr7MS2EMXX5iW0whe1RrsPojPY12ZEKOL7WGvJTyDOnA2Nzp22p5Ii/wru1uNaD/7xsw4OcMxHaYFi87dJSbsfx1OEXP3Co+zWZ2B1WdV83bvlx7NNHsATYeQuKG7IeBco+oYoXAjOk7IBlc0M6WqOpuXuBNXOGpvPR4aRd0COYXIZd+DqoK3ZLCr7gEYHHeCUx6Y8cKLK4sxbhHjGqusjVEPYdM46txSawNNIhp0LtfDilWWwecYX3N0WIPFElfKL43tIrjVrzsfL7nECsapVByhqBGFZX+mY2gEprBnqDCrVeUELmKiwm+ioQtkCAwEAAQ=="
-    auth_client_id = "mdr-client-id"
+    version = "307"
+    auth_host = "https://login.mitro.dkfz.de"
+    auth_public_key = "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyOLKpu4syqh/ZHWF6cyY4wj3PKtPYCiZsMA56FQlIjmYs3Xa5dz9GcZg2nVFb4nKIc64crpBPWRmEQH8xYJQYmKx51IRCUN/Zh0OSRjLUbQnuivMZyTn2fyjkcTZFyyZfyyF2bUWyTfOINRNUVzPBOD+vtO5LHhCizrzqCOX8pidWoO5HWgkdIJ2/vsOYxhheAiRi8HI/o6qZyFcTua1JIUVfNG/1R9RHCqr5pm49a6+ffoh2T3fii/pQJ4JFLKu3nZG5Y82gP2al/IsAT23+FnLwqmKKTYxINbB/wwJpKVo4Rda74IbfYJoDWQgZHWWL/fFbbq/RXeRqBbYuHW51vdGB5F4EGV3u+9c+/rTvXTnGQAZjIpNbLtu14dUCT0KP/TSJ0vJ+2jRzTbQb1Q/ME1rHNPOZWb67j4qJUzKnymPsGkSM9m6sOSZgh7Xtf8ST1/K9GWHqwzG5JO+UpmdbrBvveRZSJWzXYry3u+6XqhTaEKSoDY428vaIXkTq8LFfNxilpF25PLzolbhmKCWgezsTHyg5Z08ys9teGhenraQBtBrsAQMVaJpZxYGpv8BCbQnyOQbUwxSGEexa4iqEyUYUBx3dgX3iybBKbUm9S7CYj6tuvkTbfMQkqdS3bRJIGfftUv81AJ5aC6S/I+UZhwqVJKy/5HtGdf8HKh+Gc0CAwEAAQ=="
+    auth_client_id = "gba-mdr"
   }
 }
 

@@ -1,26 +1,28 @@
 [Unit]
-Description=MDR
+Description=Auth
 After=docker.service,haveged.service,searchbroker.service
 Requires=docker.service
 
 [Service]
-EnvironmentFile=/mnt/secrets/mdr
-ExecStartPre=-/usr/bin/docker kill mdr
-ExecStartPre=-/usr/bin/docker rm mdr
-ExecStartPre=/usr/bin/docker pull martinbreu/mdr:${version}
+EnvironmentFile=/mnt/secrets/auth
+ExecStartPre=-/usr/bin/docker kill auth
+ExecStartPre=-/usr/bin/docker rm auth
+ExecStartPre=/usr/bin/docker pull martinbreu/auth:${version}
 ExecStart=/usr/bin/docker run \
-  --name=mdr \
+  --name=auth \
   --network=searchbroker \
   -e TOMCAT_USERNAME='admin' \
   -e TOMCAT_PASSWORD='$${TOMCAT_PASS}' \
   -e POSTGRES_HOST='postgres.openstacklocal' \
-  -e POSTGRES_DB='mdr_db' \
-  -e POSTGRES_USER='mdr' \
+  -e POSTGRES_DB='auth_db' \
+  -e POSTGRES_USER='auth_user' \
   -e POSTGRES_PASS='$${POSTGRES_PASS}' \
+  -e MAIL_HOST='${mail_host}' \
+  -e MAIL_FROM_ADDRESS='${mail_from_address}' \
+  -e MAIL_FROM_NAME='${mail_from_name}' \
   -e AUTH_HOST='${auth_host}' \
-  -e AUTH_PUBLIC_KEY='${auth_public_key}' \
-  -e AUTH_CLIENT_ID='${auth_client_id}' \
-  -e AUTH_CLIENT_SECRET='$${AUTH_CLIENT_SECRET}' \
+  -e PRIVATE_KEY='$${PRIVATE_KEY}' \
+  -e PUBLIC_KEY='${auth_public_key}' \
   -e CATALINA_OPTS='"-Xmx2g"' \
   martinbreu/mdr:${version}
 ExecStop=/usr/bin/docker stop mdr

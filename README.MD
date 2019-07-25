@@ -1,3 +1,4 @@
+# Terraform Provisioning for Resources on Open Telekom Cloud
 
 * An already authorized user must create an user at https://console.otc.t-systems.com/iam/users with "password at first login" for dashboard access,
 next steps are for new user:
@@ -42,3 +43,28 @@ and open http://80.158.32.82:8888 or http://80.158.36.176:8888
 * Destroy everything (time is money)
 
         terraform destroy -var "vpc_name=vpc-prod"
+
+
+## Managed Postgres Database
+
+The Terraform Module [Postgres][1] describes a managed postgres database resource (RDS). The database is available under the hostname `postgres.openstacklocal`.
+
+### Root Access to the Database 
+
+* Create a SSH tunnel to the database server
+
+```bash
+ssh -L 5432:postgres:5432 otc-server-prod
+```
+
+* Access the database on localhost with user root
+
+### Create a Database and User
+
+```sql
+CREATE DATABASE auth;
+CREATE USER auth WITH ENCRYPTED PASSWORD '...';
+GRANT ALL PRIVILEGES ON DATABASE auth TO auth;
+```
+
+[1]: <https://github.com/samply/open-telekom-cloud/tree/master/modules/postgres>
