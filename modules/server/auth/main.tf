@@ -2,7 +2,7 @@ data "template_file" "auth_service" {
   template = file("${path.module}/auth.service.tmpl")
 
   vars = {
-    version = "307"
+    version = "2.1.1-SNAPSHOT"
     auth_host = "https://auth.dev.germanbiobanknode.de"
     mail_host = "out-cloud.mms.t-systems-service.com"
     mail_from_address = "no-reply@germanbiobanknode.de"
