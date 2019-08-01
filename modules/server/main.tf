@@ -19,6 +19,10 @@ module "mdr" {
   source = "./mdr"
 }
 
+module "auth" {
+  source = "./auth"
+}
+
 data "ignition_filesystem" "secrets" {
   name = "secrets"
 
@@ -79,7 +83,8 @@ data "ignition_config" "server" {
     module.searchbroker.searchbroker_service,
     module.searchbroker.searchbroker_ui_service,
     module.mdr.mdr_service,
-    module.mdr.mdr_ui_service
+    module.mdr.mdr_ui_service,
+    module.auth.auth_service
   ]
   users       = [
     module.users.core

@@ -1,0 +1,31 @@
+[Unit]
+Description=Auth
+After=docker.service,haveged.service,searchbroker.service
+Requires=docker.service
+
+[Service]
+EnvironmentFile=/mnt/secrets/auth
+ExecStartPre=-/usr/bin/docker kill auth
+ExecStartPre=-/usr/bin/docker rm auth
+ExecStartPre=/usr/bin/docker pull martinbreu/auth:${version}
+ExecStart=/usr/bin/docker run \
+  --name=auth \
+  --network=searchbroker \
+  -e TOMCAT_USERNAME='admin' \
+  -e TOMCAT_PASSWORD='$${TOMCAT_PASS}' \
+  -e POSTGRES_HOST='postgres.openstacklocal' \
+  -e POSTGRES_DB='auth_db' \
+  -e POSTGRES_USER='auth_user' \
+  -e POSTGRES_PASS='$${POSTGRES_PASS}' \
+  -e MAIL_HOST='${mail_host}' \
+  -e MAIL_FROM_ADDRESS='${mail_from_address}' \
+  -e MAIL_FROM_NAME='${mail_from_name}' \
+  -e AUTH_HOST='${auth_host}' \
+  -e PRIVATE_KEY='$${PRIVATE_KEY}' \
+  -e PUBLIC_KEY='${auth_public_key}' \
+  -e CATALINA_OPTS='"-Xmx2g"' \
+  martinbreu/auth:${version}
+ExecStop=/usr/bin/docker stop auth
+
+[Install]
+WantedBy=multi-user.target
