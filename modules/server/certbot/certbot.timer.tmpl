@@ -1,0 +1,9 @@
+[Unit]
+Description=Runs Certbot periodically
+
+[Timer]
+OnCalendar=0/12:00:00
+RandomizedDelaySec=1h
+
+[Install]
+WantedBy=multi-user.target

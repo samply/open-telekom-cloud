@@ -3,12 +3,21 @@ module "users" {
 }
 
 module "haveged" {
-  source        = "./haveged"
+  source = "./haveged"
 }
 
 module "nginx" {
   source        = "./nginx"
   nginx_version = "1.17.1"
+}
+
+module "certbot" {
+  source          = "./certbot"
+  certbot_domains = [
+    "search.germanbiobanknode.de",
+    "auth.germanbiobanknode.de",
+    "mdr.germanbiobanknode.de"
+  ]
 }
 
 module "searchbroker" {
@@ -24,11 +33,11 @@ module "auth" {
 }
 
 data "ignition_filesystem" "secrets" {
-  name = "secrets"
+  name      = "secrets"
 
   mount {
-    device = "/dev/disk/by-label/SECRETS"
-    format = "ext4"
+    device  = "/dev/disk/by-label/SECRETS"
+    format  = "ext4"
     options = ["-L", "SECRETS"]
   }
 }
@@ -45,11 +54,11 @@ data "ignition_systemd_unit" "mnt_secrets_mount" {
 }
 
 data "ignition_filesystem" "ssl" {
-  name = "ssl"
+  name      = "ssl"
 
   mount {
-    device = "/dev/disk/by-label/SSL"
-    format = "ext4"
+    device  = "/dev/disk/by-label/SSL"
+    format  = "ext4"
     options = ["-L", "SSL"]
   }
 }
@@ -84,7 +93,9 @@ data "ignition_config" "server" {
     module.searchbroker.searchbroker_ui_service,
     module.mdr.mdr_service,
     module.mdr.mdr_ui_service,
-    module.auth.auth_service
+    module.auth.auth_service,
+    module.certbot.certbot_service,
+    module.certbot.certbot_timer
   ]
   users       = [
     module.users.core
@@ -115,18 +126,18 @@ resource "opentelekomcloud_blockstorage_volume_v2" "secrets" {
 }
 
 resource "opentelekomcloud_compute_instance_v2" "server" {
-  name       = "server"
-  image_name = "container-linux-2135.4.0-2"
-  flavor_id  = "s2.medium.4"
+  name            = "server"
+  image_name      = "container-linux-2135.4.0-2"
+  flavor_id       = "s2.medium.4"
 
-  user_data = data.ignition_config.server.rendered
+  user_data       = data.ignition_config.server.rendered
 
   security_groups = [
     "default"
   ]
 
   network {
-    uuid = var.subnet
+    uuid          = var.subnet
   }
 }
 

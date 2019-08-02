@@ -1,19 +1,22 @@
 [Unit]
 Description=Nginx
-After=docker.service,searchbroker.service,searchbroker-ui.service,mdr.service,mdr-ui.service
+After=searchbroker.service,searchbroker-ui.service,mdr.service,mdr-ui.service,auth.service
 Requires=docker.service
 
 [Service]
 ExecStartPre=-/usr/bin/docker kill nginx
 ExecStartPre=-/usr/bin/docker rm nginx
+ExecStartPre=/usr/bin/docker volume create acme-challenge
 ExecStartPre=/usr/bin/docker pull nginx:${version}
 ExecStart=/usr/bin/docker run \
-  --name=nginx \
-  --network=searchbroker \
-  -v /etc/nginx/conf.d:/etc/nginx/conf.d:ro \
-  -v /etc/nginx/ssl:/etc/nginx/ssl:ro \
-  -p 443:443 -p 80:80 \
-  nginx:${version}
+    --name=nginx \
+    --network=searchbroker \
+    -v /etc/nginx/conf.d:/etc/nginx/conf.d:ro \
+    -v /etc/nginx/ssl:/etc/nginx/ssl:ro \
+    -v acme-challenge:/certbot/.well-known/acme-challenge \
+    -p 443:443 -p 80:80 \
+nginx:${version}
+
 ExecStop=/usr/bin/docker stop nginx
 
 [Install]
