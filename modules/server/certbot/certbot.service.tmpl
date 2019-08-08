@@ -1,0 +1,28 @@
+[Unit]
+Description=Certbot renewing ssl https certificates
+After=nginx.service,searchbroker.service
+Requires=docker.service,nginx.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStartPre=/usr/bin/docker volume create acme-challenge
+ExecStartPre=/usr/bin/docker pull certbot/certbot:${version}
+ExecStart=/usr/bin/docker run \
+    --name=certbot \
+    --rm \
+    --network=searchbroker \
+    -v /etc/nginx/ssl:/etc/letsencrypt \
+    -v acme-challenge:/certbot \
+certbot/certbot:${version} certonly \
+    --noninteractive \
+    --agree-tos \
+    --email ${email} \
+    --webroot \
+    --webroot-path /certbot \
+    -d ${domains}
+
+ExecStartPost=/usr/bin/docker container exec nginx nginx -s reload
+
+[Install]
+WantedBy=multi-user.target

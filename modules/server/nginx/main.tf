@@ -1,3 +1,16 @@
+data "template_file" "acme-challenge_global" {
+  template = file("${path.module}/acme-challenge.global.tmpl")
+}
+
+data "ignition_file" "acme-challenge_global" {
+  filesystem = "root"
+  path       = "/etc/nginx/conf.d/acme-challenge.global"
+  mode       = "0644"
+  content {
+    content = data.template_file.acme-challenge_global.rendered
+  }
+}
+
 data "template_file" "auth_config" {
   template = file("${path.module}/auth.conf.tmpl")
 }
@@ -39,7 +52,6 @@ data "ignition_file" "mdr_config" {
 
 data "template_file" "nginx_service" {
   template = file("${path.module}/nginx.service.tmpl")
-
   vars = {
     version = var.nginx_version
   }
