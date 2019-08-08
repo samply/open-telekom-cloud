@@ -1,3 +1,7 @@
+output "acme-challenge_global_file" {
+  value = data.ignition_file.acme-challenge_global.id
+}
+
 output "searchbroker_config_file" {
   value = data.ignition_file.searchbroker_config.id
 }
