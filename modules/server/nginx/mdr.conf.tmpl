@@ -1,7 +1,7 @@
 server {
     listen 80;
     server_name mdr.germanbiobanknode.de;
-    include /etc/nginx/conf.d/acme-challenge.global;
+    include /etc/nginx/acme-challenge.global;
 
     location / {
         proxy_pass http://mdr-ui:8080/;
