@@ -4,7 +4,7 @@ data "template_file" "acme-challenge_global" {
 
 data "ignition_file" "acme-challenge_global" {
   filesystem = "root"
-  path       = "/etc/nginx/acme-challenge.global"
+  path       = "/etc/nginx/conf.d/acme-challenge.global"
   mode       = "0644"
   content {
     content = data.template_file.acme-challenge_global.rendered

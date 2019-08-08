@@ -1,7 +1,7 @@
 server {
     listen 80;
     server_name search.germanbiobanknode.de;
-    include /etc/nginx/acme-challenge.global;
+    include /etc/nginx/conf.d/acme-challenge.global;
 
     location / {
         proxy_pass http://searchbroker-ui:8080/;
