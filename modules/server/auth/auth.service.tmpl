@@ -1,16 +1,17 @@
 [Unit]
 Description=Auth
-After=docker.service,haveged.service,searchbroker.service
+After=docker.service,haveged.service
 Requires=docker.service
 
 [Service]
 EnvironmentFile=/mnt/secrets/auth
+ExecStartPre=-/usr/bin/docker network create gba
 ExecStartPre=-/usr/bin/docker kill auth
 ExecStartPre=-/usr/bin/docker rm auth
 ExecStartPre=/usr/bin/docker pull martinbreu/auth:${version}
 ExecStart=/usr/bin/docker run \
   --name=auth \
-  --network=searchbroker \
+  --network=gba \
   -e TOMCAT_USERNAME='admin' \
   -e TOMCAT_PASSWORD='$${TOMCAT_PASS}' \
   -e POSTGRES_HOST='postgres.openstacklocal' \

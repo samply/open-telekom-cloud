@@ -1,13 +1,13 @@
 variable "vpc" {
-  type        = "string"
+  type = "string"
 }
 
 variable "subnet" {
-  type        = "string"
+  type = "string"
 }
 
 variable "zone" {
-  type        = "string"
+  type = "string"
 }
 
 variable "db_passwd" {

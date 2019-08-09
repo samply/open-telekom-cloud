@@ -1,7 +1,7 @@
 variable "subnet" {
-  type        = "string"
+  type = "string"
 }
 
 variable "zone" {
-  type        = "string"
+  type = "string"
 }
