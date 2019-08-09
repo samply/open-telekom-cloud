@@ -1,7 +1,7 @@
 [Unit]
 Description=Certbot renewing ssl https certificates
-After=nginx.service,searchbroker.service
-Requires=docker.service,nginx.service
+After=docker.service,nginx.service,init-network.service
+Requires=docker.service,nginx.service,init-network.service
 
 [Service]
 Type=oneshot
@@ -11,7 +11,7 @@ ExecStartPre=/usr/bin/docker pull certbot/certbot:${version}
 ExecStart=/usr/bin/docker run \
     --name=certbot \
     --rm \
-    --network=searchbroker \
+    --network=gba \
     -v /etc/nginx/ssl:/etc/letsencrypt \
     -v acme-challenge:/certbot \
 certbot/certbot:${version} certonly \

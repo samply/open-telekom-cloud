@@ -6,6 +6,10 @@ module "haveged" {
   source = "./haveged"
 }
 
+module "init-network" {
+  source = "./init-network"
+}
+
 module "nginx" {
   source        = "./nginx"
   nginx_version = "1.17.1"
@@ -99,7 +103,8 @@ data "ignition_config" "server" {
     module.mdr.mdr_ui_service,
     module.auth.auth_service,
     module.certbot.certbot_service,
-    module.certbot.certbot_timer
+    module.certbot.certbot_timer,
+    module.init-network.init-network_service
   ]
   users       = [
     module.users.core

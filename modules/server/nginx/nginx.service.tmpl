@@ -1,16 +1,16 @@
 [Unit]
 Description=Nginx
-After=searchbroker.service,searchbroker-ui.service,mdr.service,mdr-ui.service,auth.service
-Requires=docker.service
+After=docker.service,haveged.service,searchbroker.service,searchbroker-ui.service,mdr.service,mdr-ui.service,auth.service,init-network.service
+Requires=docker.service,searchbroker.service,searchbroker-ui.service,mdr.service,mdr-ui.service,auth.service,init-network.service
 
 [Service]
-ExecStartPre=-/usr/bin/docker kill nginx
-ExecStartPre=-/usr/bin/docker rm nginx
 ExecStartPre=/usr/bin/docker volume create acme-challenge
+ExecStartPre=/usr/bin/docker kill nginx
+ExecStartPre=/usr/bin/docker rm nginx
 ExecStartPre=/usr/bin/docker pull nginx:${version}
 ExecStart=/usr/bin/docker run \
     --name=nginx \
-    --network=searchbroker \
+    --network=gba \
     -v /etc/nginx/conf.d:/etc/nginx/conf.d:ro \
     -v /etc/nginx/ssl:/etc/nginx/ssl:ro \
     -v acme-challenge:/certbot/.well-known/acme-challenge \

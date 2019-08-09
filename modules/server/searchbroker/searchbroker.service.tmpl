@@ -1,17 +1,16 @@
 [Unit]
 Description=Searchbroker
-After=docker.service,haveged.service
-Requires=docker.service
+After=docker.service,haveged.service,init-network.service
+Requires=docker.service,init-network.service
 
 [Service]
 EnvironmentFile=/mnt/secrets/searchbroker
-ExecStartPre=-/usr/bin/docker kill searchbroker
-ExecStartPre=-/usr/bin/docker rm searchbroker
-ExecStartPre=-/usr/bin/docker network create searchbroker
+ExecStartPre=/usr/bin/docker kill searchbroker
+ExecStartPre=/usr/bin/docker rm searchbroker
 ExecStartPre=/usr/bin/docker pull martinbreu/searchbroker:${version}
 ExecStart=/usr/bin/docker run \
   --name=searchbroker \
-  --network=searchbroker \
+  --network=gba \
   -e POSTGRES_HOST='postgres.openstacklocal' \
   -e POSTGRES_DB='searchbroker' \
   -e POSTGRES_PORT='5432' \

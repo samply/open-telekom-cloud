@@ -1,16 +1,16 @@
 [Unit]
 Description=Searchbroker UI
-After=haveged.service
-Requires=docker.service
+After=docker.service,haveged.service,init-network.service
+Requires=docker.service,init-network.service
 
 [Service]
 EnvironmentFile=/mnt/secrets/searchbroker-ui
-ExecStartPre=-/usr/bin/docker kill searchbroker-ui
-ExecStartPre=-/usr/bin/docker rm searchbroker-ui
+ExecStartPre=/usr/bin/docker kill searchbroker-ui
+ExecStartPre=/usr/bin/docker rm searchbroker-ui
 ExecStartPre=/usr/bin/docker pull martinbreu/searchbroker-ui:${version}
 ExecStart=/usr/bin/docker run \
   --name=searchbroker-ui \
-  --network=searchbroker \
+  --network=gba \
   -e SEARCHBROKER_URL='http://searchbroker:8080/broker' \
   -e NEGOTIATOR_URL='${negotiator_url}' \
   -e AUTH_CLIENT_ID='${auth_client_id}' \
