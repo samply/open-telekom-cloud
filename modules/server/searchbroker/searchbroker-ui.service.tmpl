@@ -5,8 +5,8 @@ Requires=docker.service,init-network.service
 
 [Service]
 EnvironmentFile=/mnt/secrets/searchbroker-ui
-ExecStartPre=/usr/bin/docker kill searchbroker-ui
-ExecStartPre=/usr/bin/docker rm searchbroker-ui
+ExecStartPre=-/usr/bin/docker kill searchbroker-ui
+ExecStartPre=-/usr/bin/docker rm searchbroker-ui
 ExecStartPre=/usr/bin/docker pull martinbreu/searchbroker-ui:${version}
 ExecStart=/usr/bin/docker run \
   --name=searchbroker-ui \

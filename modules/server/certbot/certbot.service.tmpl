@@ -6,7 +6,7 @@ Requires=docker.service,nginx.service,init-network.service
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStartPre=/usr/bin/docker volume create acme-challenge
+ExecStartPre=-/usr/bin/docker volume create acme-challenge
 ExecStartPre=/usr/bin/docker pull certbot/certbot:${version}
 ExecStart=/usr/bin/docker run \
     --name=certbot \

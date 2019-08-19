@@ -4,9 +4,9 @@ After=docker.service,haveged.service,searchbroker.service,searchbroker-ui.servic
 Requires=docker.service,searchbroker.service,searchbroker-ui.service,mdr.service,mdr-ui.service,auth.service,init-network.service
 
 [Service]
-ExecStartPre=/usr/bin/docker volume create acme-challenge
-ExecStartPre=/usr/bin/docker kill nginx
-ExecStartPre=/usr/bin/docker rm nginx
+ExecStartPre=-/usr/bin/docker volume create acme-challenge
+ExecStartPre=-/usr/bin/docker kill nginx
+ExecStartPre=-/usr/bin/docker rm nginx
 ExecStartPre=/usr/bin/docker pull nginx:${version}
 ExecStart=/usr/bin/docker run \
     --name=nginx \
