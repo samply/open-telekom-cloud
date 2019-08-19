@@ -4,7 +4,7 @@ server {
     include /etc/nginx/conf.d/acme-challenge.global;
 
     location / {
-        rewrite ^ https://search.germanbiobanknode.de$request_uri? permanent;
+        rewrite ^ https://$server_name$request_uri? permanent;
     }
 
     location /broker {
