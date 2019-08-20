@@ -22,7 +22,7 @@ module "certbot" {
 
 module "searchbroker" {
   source                  = "./searchbroker"
-  searchbroker_version    = "2.2.1"
+  searchbroker_version    = "2.2.0"
   searchbroker-ui_version = "6e41bbd9c8c77713d053c1b7a6d6f3d9b06081d3"
 }
 
@@ -37,10 +37,24 @@ module "auth" {
   auth_version = "2.1.1-SNAPSHOT"
 }
 
+data "ignition_disk" "data" {
+  device  = "/dev/vdb"
+  partition {
+    label = "SECRETS"
+    number = 1
+    size = 1040000
+  }
+  partition {
+    label = "SSL"
+    number = 2
+    size = 1040000
+  }
+}
+
 data "ignition_filesystem" "secrets" {
   name = "secrets"
   mount {
-    device  = "/dev/disk/by-label/SECRETS"
+    device  = "/dev/disk/by-partlabel/SECRETS"
     format  = "ext4"
     options = ["-L", "SECRETS"]
   }
@@ -60,7 +74,7 @@ data "ignition_systemd_unit" "mnt_secrets_mount" {
 data "ignition_filesystem" "ssl" {
   name = "ssl"
   mount {
-    device  = "/dev/disk/by-label/SSL"
+    device  = "/dev/disk/by-partlabel/SSL"
     format  = "ext4"
     options = ["-L", "SSL"]
   }
@@ -104,7 +118,11 @@ data "ignition_config" "server" {
   users       = [
     module.users.core
   ]
+  disks = [
+    data.ignition_disk.data.id
+  ]
   filesystems = [
+    data.ignition_filesystem.secrets.id,
     data.ignition_filesystem.ssl.id
   ]
   directories = [
@@ -121,18 +139,13 @@ data "ignition_config" "server" {
   ]
 }
 
-resource "opentelekomcloud_blockstorage_volume_v2" "ssl" {
-  name = "ssl"
-  size = 1
-}
-
-resource "opentelekomcloud_blockstorage_volume_v2" "secrets" {
-  name = "secrets"
+resource "opentelekomcloud_blockstorage_volume_v2" "data" {
+  name = format("server-data-%s", terraform.workspace)
   size = 1
 }
 
 resource "opentelekomcloud_compute_instance_v2" "server" {
-  name            = "server"
+  name            = format("server-%s", terraform.workspace)
   image_name      = "container-linux-2135.4.0-2"
   flavor_id       = "s2.medium.4"
   user_data       = data.ignition_config.server.rendered
@@ -144,14 +157,9 @@ resource "opentelekomcloud_compute_instance_v2" "server" {
   }
 }
 
-resource "opentelekomcloud_compute_volume_attach_v2" "ssl_attach" {
+resource "opentelekomcloud_compute_volume_attach_v2" "data_attach" {
   instance_id = opentelekomcloud_compute_instance_v2.server.id
-  volume_id   = opentelekomcloud_blockstorage_volume_v2.ssl.id
-}
-
-resource "opentelekomcloud_compute_volume_attach_v2" "secrets_attach" {
-  instance_id = opentelekomcloud_compute_instance_v2.server.id
-  volume_id   = opentelekomcloud_blockstorage_volume_v2.secrets.id
+  volume_id   = opentelekomcloud_blockstorage_volume_v2.data.id
 }
 
 resource "opentelekomcloud_dns_recordset_v2" "server" {

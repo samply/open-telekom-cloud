@@ -28,8 +28,8 @@ next steps are for new user:
 * Init server, db, networks, ... with:
 
         terraform init
-        terraform plan -var "vpc_name=vpc-prod"
-        terraform apply -var "vpc_name=vpc-prod"
+        terraform plan
+        terraform apply
         
 * Connect to server over ssh using your username: prod=80.158.32.82, test=80.158.36.176
 
@@ -42,7 +42,7 @@ and open http://80.158.32.82:8888 or http://80.158.36.176:8888
 
 * Destroy everything (time is money)
 
-        terraform destroy -var "vpc_name=vpc-prod"
+        terraform destroy
 
 
 ## Managed Postgres Database
