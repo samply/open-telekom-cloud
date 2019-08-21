@@ -1,0 +1,11 @@
+[Unit]
+Description=Creates docker network
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker network create gba
+
+[Install]
+WantedBy=multi-user.target
