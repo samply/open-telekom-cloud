@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name search.germanbiobanknode.de;
+    server_name ${subdomain}.germanbiobanknode.de;
     include /etc/nginx/conf.d/acme-challenge.global;
 
     location / {
@@ -17,10 +17,10 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name search.germanbiobanknode.de;
+    server_name ${subdomain}.germanbiobanknode.de;
 
-    ssl_certificate     /etc/nginx/ssl/live/search.germanbiobanknode.de/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/live/search.germanbiobanknode.de/privkey.pem;
+    ssl_certificate     /etc/nginx/ssl/live/${subdomain}.germanbiobanknode.de/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/live/${subdomain}.germanbiobanknode.de/privkey.pem;
 
     location / {
         rewrite ^ https://samplelocator.bbmri.de$request_uri? permanent;
