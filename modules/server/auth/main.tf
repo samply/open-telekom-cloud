@@ -2,7 +2,7 @@ data "template_file" "auth_service" {
   template = file("${path.module}/auth.service.tmpl")
   vars = {
     version           =  var.auth_version
-    auth_host         = "https://auth.germanbiobanknode.de"
+    auth_host         = terraform.workspace == "default" ? "https://auth.germanbiobanknode.de" : "https://auth.dev.germanbiobanknode.de"
     mail_host         = "out-cloud.mms.t-systems-service.com"
     mail_from_address = "no-reply@germanbiobanknode.de"
     mail_from_name    = "Samply Auth"
