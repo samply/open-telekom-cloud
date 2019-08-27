@@ -23,7 +23,10 @@ next steps are for new user:
 
 * Add your ssh key as ignition_user and at this user to ignition_config of server for ssh access to server (main.tf)
 
+* To build a test instance, being accessible at `https:// (search | auth | mdr) .test.germanbiobanknode.de`:
 
+        terraform workspace new test
+        terraform workspace select test
 
 * Init server, db, networks, ... with:
 
