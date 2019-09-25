@@ -2,7 +2,7 @@ data "template_file" "searchbroker_service" {
   template = file("${path.module}/searchbroker.service.tmpl")
 
   vars = {
-    version = "2.2.0"
+    version = "2.2.1"
     mail_host = "out-cloud.mms.t-systems-service.com"
     mail_from_address = "no-reply@germanbiobanknode.de"
     mail_from_name = "Sample Locator"
