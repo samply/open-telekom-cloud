@@ -1,7 +1,7 @@
 [Unit]
 Description=MDR UI
-After=docker.service,haveged.service,searchbroker.service
-Requires=docker.service
+After=docker.service,haveged.service,init-network.service
+Requires=docker.service,init-network.service
 
 [Service]
 EnvironmentFile=/mnt/secrets/mdr
@@ -10,7 +10,7 @@ ExecStartPre=-/usr/bin/docker rm mdr-ui
 ExecStartPre=/usr/bin/docker pull martinbreu/mdr-ui:${version}
 ExecStart=/usr/bin/docker run \
   --name=mdr-ui \
-  --network=searchbroker \
+  --network=gba \
   -e TOMCAT_USERNAME='admin' \
   -e TOMCAT_PASSWORD='$${TOMCAT_PASS}' \
   -e POSTGRES_HOST='postgres.openstacklocal' \

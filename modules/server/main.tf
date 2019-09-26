@@ -6,6 +6,10 @@ module "haveged" {
   source = "./haveged"
 }
 
+module "init-network" {
+  source = "./init-network"
+}
+
 module "nginx" {
   source        = "./nginx"
   nginx_version = "1.17.1"
@@ -13,6 +17,7 @@ module "nginx" {
 
 module "certbot" {
   source          = "./certbot"
+  certbot_version = "v0.36.0"
   certbot_domains = [
     "search.germanbiobanknode.de",
     "auth.germanbiobanknode.de",
@@ -21,20 +26,24 @@ module "certbot" {
 }
 
 module "searchbroker" {
-  source = "./searchbroker"
+  source                  = "./searchbroker"
+  searchbroker_version    = "2.2.1"
+  searchbroker-ui_version = "6e41bbd9c8c77713d053c1b7a6d6f3d9b06081d3"
 }
 
 module "mdr" {
-  source = "./mdr"
+  source         = "./mdr"
+  mdr_version    = "4.0.4-SNAPSHOT"
+  mdr-ui_version = "2.0.6-SNAPSHOT"
 }
 
 module "auth" {
-  source = "./auth"
+  source       = "./auth"
+  auth_version = "2.1.1-SNAPSHOT"
 }
 
 data "ignition_filesystem" "secrets" {
-  name      = "secrets"
-
+  name = "secrets"
   mount {
     device  = "/dev/disk/by-label/SECRETS"
     format  = "ext4"
@@ -54,8 +63,7 @@ data "ignition_systemd_unit" "mnt_secrets_mount" {
 }
 
 data "ignition_filesystem" "ssl" {
-  name      = "ssl"
-
+  name = "ssl"
   mount {
     device  = "/dev/disk/by-label/SSL"
     format  = "ext4"
@@ -95,7 +103,8 @@ data "ignition_config" "server" {
     module.mdr.mdr_ui_service,
     module.auth.auth_service,
     module.certbot.certbot_service,
-    module.certbot.certbot_timer
+    module.certbot.certbot_timer,
+    module.init-network.init-network_service
   ]
   users       = [
     module.users.core
@@ -130,15 +139,12 @@ resource "opentelekomcloud_compute_instance_v2" "server" {
   name            = "server"
   image_name      = "container-linux-2135.4.0-2"
   flavor_id       = "s2.medium.4"
-
   user_data       = data.ignition_config.server.rendered
-
   security_groups = [
     "default"
   ]
-
   network {
-    uuid          = var.subnet
+    uuid = var.subnet
   }
 }
 

@@ -17,4 +17,3 @@ variable "db_passwd" {
   type        = "string"
   description = "The password of the Postgres DB."
 }
-
