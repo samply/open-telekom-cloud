@@ -67,4 +67,25 @@ CREATE USER auth WITH ENCRYPTED PASSWORD '...';
 GRANT ALL PRIVILEGES ON DATABASE auth TO auth;
 ```
 
+## Create New Let's Encrypt Certificate
+
+Check chat the certificate isn't already known:
+
+```bash
+docker run --rm -v /etc/nginx/ssl:/etc/letsencrypt certbot/certbot:v0.36.0 certificates
+```
+
+First do a dry run:
+
+```bash
+docker run --rm \
+  -v /etc/nginx/ssl:/etc/letsencrypt \
+  -v acme-challenge:/certbot \
+  certbot/certbot:v0.36.0 \
+  certonly --dry-run --agree-tos --webroot --webroot-path /certbot \
+  -d <domain>
+```
+
+Than do the same removing `--dry-run`
+
 [1]: <https://github.com/samply/open-telekom-cloud/tree/master/modules/postgres>

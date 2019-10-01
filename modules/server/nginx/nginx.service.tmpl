@@ -15,8 +15,7 @@ ExecStart=/usr/bin/docker run \
     -v /etc/nginx/ssl:/etc/nginx/ssl:ro \
     -v acme-challenge:/certbot/.well-known/acme-challenge \
     -p 443:443 -p 80:80 \
-nginx:${version}
-
+    nginx:${version}
 ExecStop=/usr/bin/docker stop nginx
 
 [Install]

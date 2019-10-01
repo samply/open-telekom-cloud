@@ -1,3 +1,7 @@
+output "etc_nginx_dir" {
+  value = data.ignition_directory.etc_nginx.id
+}
+
 output "acme-challenge_global_file" {
   value = data.ignition_file.acme-challenge_global.id
 }
