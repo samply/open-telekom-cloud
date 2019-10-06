@@ -1,3 +1,9 @@
+data "ignition_directory" "etc_nginx" {
+  filesystem = "root"
+  path       = "/etc/nginx"
+  mode       = "0755"
+}
+
 data "template_file" "acme-challenge_global" {
   template = file("${path.module}/acme-challenge.global.tmpl")
 }

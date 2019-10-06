@@ -3,7 +3,6 @@ data "template_file" "certbot_service" {
   vars = {
     version = var.certbot_version
     email   = "notify@germanbiobanknode.de"
-    domains = join(" -d ", var.certbot_domains)
   }
 }
 
