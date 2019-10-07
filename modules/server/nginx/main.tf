@@ -37,6 +37,7 @@ data "template_file" "searchbroker_config" {
   template = file("${path.module}/searchbroker.conf.tmpl")
   vars = {
     subdomain = terraform.workspace == "default" ? "search" : format("search.%s", terraform.workspace)
+    workspace = terraform.workspace
   }
 }
 
