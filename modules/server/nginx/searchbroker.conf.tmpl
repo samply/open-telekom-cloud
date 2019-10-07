@@ -4,7 +4,7 @@ server {
     include /etc/nginx/conf.d/acme-challenge.global;
 
     location / {
-        rewrite ^ https://$server_name$request_uri? permanent;
+        rewrite ^ https://samplelocator.bbmri.de$request_uri? permanent;
     }
 
     location /broker {
@@ -21,6 +21,36 @@ server {
 
     ssl_certificate     /etc/nginx/ssl/live/search.germanbiobanknode.de/fullchain.pem;
     ssl_certificate_key /etc/nginx/ssl/live/search.germanbiobanknode.de/privkey.pem;
+
+    location / {
+        rewrite ^ https://samplelocator.bbmri.de$request_uri? permanent;
+    }
+
+    location /broker {
+        proxy_pass http://searchbroker:8080/broker;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+
+server {
+    listen 80;
+    server_name samplelocator.bbmri.de;
+    include /etc/nginx/conf.d/acme-challenge.global;
+
+    location / {
+        rewrite ^ https://$server_name$request_uri? permanent;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name samplelocator.bbmri.de;
+
+    ssl_certificate     /etc/nginx/ssl/live/samplelocator.bbmri.de/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/live/samplelocator.bbmri.de/privkey.pem;
 
     location / {
         proxy_pass http://searchbroker-ui:8080/;

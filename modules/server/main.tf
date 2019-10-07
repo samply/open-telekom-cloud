@@ -18,11 +18,6 @@ module "nginx" {
 module "certbot" {
   source          = "./certbot"
   certbot_version = "v0.36.0"
-  certbot_domains = [
-    "search.germanbiobanknode.de",
-    "auth.germanbiobanknode.de",
-    "mdr.germanbiobanknode.de"
-  ]
 }
 
 module "searchbroker" {
@@ -114,7 +109,8 @@ data "ignition_config" "server" {
   ]
   directories = [
     data.ignition_directory.secrets_mount_point_folder.id,
-    data.ignition_directory.ssl_mount_point_folder.id
+    data.ignition_directory.ssl_mount_point_folder.id,
+    module.nginx.etc_nginx_dir
   ]
   files       = [
     data.ignition_file.hostname.id,
