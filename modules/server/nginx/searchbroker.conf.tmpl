@@ -8,7 +8,9 @@ server {
     }
 
     location /broker {
-        proxy_pass http://searchbroker:8080/broker;
+        resolver 127.0.0.11;
+        set $searchbroker searchbroker;
+        proxy_pass http://$searchbroker:8080/broker;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
@@ -27,7 +29,9 @@ server {
     }
 
     location /broker {
-        proxy_pass http://searchbroker:8080/broker;
+        resolver 127.0.0.11;
+        set $searchbroker searchbroker;
+        proxy_pass http://$searchbroker:8080/broker;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
@@ -53,7 +57,9 @@ server {
     ssl_certificate_key /etc/nginx/ssl/live/samplelocator.bbmri.de/privkey.pem;
 
     location / {
-        proxy_pass http://searchbroker-ui:8080/;
+        resolver 127.0.0.11;
+        set $searchbroker-ui searchbroker-ui;
+        proxy_pass http://$searchbroker-ui:8080/;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
