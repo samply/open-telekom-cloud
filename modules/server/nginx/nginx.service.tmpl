@@ -1,7 +1,7 @@
 [Unit]
 Description=Nginx
-After=docker.service,haveged.service,searchbroker.service,searchbroker-ui.service,mdr.service,mdr-ui.service,auth.service,init-network.service
-Requires=docker.service,searchbroker.service,searchbroker-ui.service,mdr.service,mdr-ui.service,auth.service,init-network.service
+After=docker.service,init-network.service
+Requires=docker.service,init-network.service
 
 [Service]
 ExecStartPre=-/usr/bin/docker volume create acme-challenge
