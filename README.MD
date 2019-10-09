@@ -66,8 +66,9 @@ ssh -L 5432:postgres:5432 otc-server-prod
 
 ```sql
 CREATE DATABASE auth;
-CREATE USER auth WITH ENCRYPTED PASSWORD '...';
-GRANT ALL PRIVILEGES ON DATABASE auth TO auth;
+CREATE USER auth_user WITH ENCRYPTED PASSWORD '...';
+GRANT auth_user TO root;
+GRANT ALL PRIVILEGES ON DATABASE auth TO auth_user;
 ```
 
 ## Create New Let's Encrypt Certificate
