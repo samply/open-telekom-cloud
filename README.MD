@@ -43,7 +43,7 @@ next steps are for new user:
 and open http://80.158.32.82:8888 or http://80.158.36.176:8888
 
 
-* Destroy everything (time is money)
+* Destroy everything (time is money), look for backup of Postgres and Disk `server-data-(test/default)`
 
         terraform destroy
 
@@ -91,5 +91,19 @@ docker run --rm \
 ```
 
 Than do the same removing `--dry-run`
+
+### Re-destroy
+
+* In the "Volume Backup Service" section choose your previously created backup of `server-data-(test/default)`
+* Select "Create Disk" backup with name and size defined in Resource at `modules/server/main.tf`
+* Search for its id and replace:
+
+```bash
+terraform import module.server.opentelekomcloud_blockstorage_volume_v2.data <id>
+terraform apply
+```
+
+* In the "RDS" section under "Backup Management" choose your previously created backup `postgres(-test)` and "Restore"
+* Reboot server
 
 [1]: <https://github.com/samply/open-telekom-cloud/tree/master/modules/postgres>
