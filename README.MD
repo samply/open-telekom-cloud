@@ -43,7 +43,7 @@ next steps are for new user:
 and open http://80.158.32.82:8888 or http://80.158.36.176:8888
 
 
-* Destroy everything (time is money), look for backup of Postgres and Disk `server-data-(test/default)`
+* Destroy everything (time is money), look for backup of Disk `server-data-(test/default)` and Postgres(Attention: Currently create manual backups!) 
 
         terraform destroy
 
@@ -103,7 +103,7 @@ terraform import module.server.opentelekomcloud_blockstorage_volume_v2.data <id>
 terraform apply
 ```
 
-* In the "RDS" section under "Backup Management" choose your previously created backup `postgres(-test)` and "Restore"
+* In the "RDS" section under "Backup Management" choose your previously created backup `postgres(-test)` and "Restore" (Currently not working!)
 * Reboot server
 
 [1]: <https://github.com/samply/open-telekom-cloud/tree/master/modules/postgres>
