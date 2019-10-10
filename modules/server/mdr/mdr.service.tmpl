@@ -18,8 +18,8 @@ ExecStart=/usr/bin/docker run \
   -e POSTGRES_USER='mdr' \
   -e POSTGRES_PASS='$${POSTGRES_PASS}' \
   -e AUTH_HOST='${auth_host}' \
-  -e AUTH_PUBLIC_KEY='${auth_public_key}' \
-  -e AUTH_CLIENT_ID='${auth_client_id}' \
+  -e AUTH_PUBLIC_KEY='$${AUTH_PUBLIC_KEY}' \
+  -e AUTH_CLIENT_ID='$${AUTH_CLIENT_ID}' \
   -e AUTH_CLIENT_SECRET='$${AUTH_CLIENT_SECRET}' \
   -e CATALINA_OPTS='"-Xmx2g"' \
   martinbreu/mdr:${version}
