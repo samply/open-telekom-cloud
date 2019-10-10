@@ -141,7 +141,7 @@ data "ignition_config" "server" {
 
 resource "opentelekomcloud_blockstorage_volume_v2" "data" {
   name = format("server-data-%s", terraform.workspace)
-  size = 1
+  size = 10
 }
 
 resource "opentelekomcloud_compute_instance_v2" "server" {
