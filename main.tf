@@ -19,7 +19,7 @@ module "server" {
 locals {
   elastic_ips = {
     "default" = "80.158.32.82"
-    "test" = "80.158.39.54"
+    "test" = "80.158.4.11"
   }
 }
 
