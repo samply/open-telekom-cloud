@@ -27,6 +27,10 @@ next steps are for new user:
 
         terraform workspace new test
         terraform workspace select test
+        
+* To return to productive instance:
+
+        terraform workspace select default
 
 * Init server, db, networks, ... with:
 
@@ -34,18 +38,7 @@ next steps are for new user:
         terraform plan
         terraform apply
         
-* Connect to server over ssh using your username: prod=80.158.32.82, test=80.158.36.176
-
-* Test server e.g. with
-
-        docker run -it --rm -p 8888:8080 tomcat:8.0
-        
-and open http://80.158.32.82:8888 or http://80.158.36.176:8888
-
-
-* Destroy everything (time is money), look for backup of Disk `server-data-(test/default)` and Postgres(Attention: Currently create manual backups!) 
-
-        terraform destroy
+*Connect over ssh with user core@ prod=80.158.32.82 or test=80.158.4.11
 
 
 ## Managed Postgres Database
@@ -95,15 +88,11 @@ Than do the same removing `--dry-run`
 ### Re-destroy
 
 * In the "Volume Backup Service" section choose your previously created backup of `server-data-(test/default)`
-* Select "Create Disk" backup with name and size defined in Resource at `modules/server/main.tf`
-* Search for its id and replace:
-
+* Select "Restore Disk". 
+If errors occur, select "Create Disk" with same name and size, search for its id and replace <id>:
 ```bash
 terraform import module.server.opentelekomcloud_blockstorage_volume_v2.data <id>
-terraform apply
 ```
-
-* In the "RDS" section under "Backup Management" choose your previously created backup `postgres(-test)` and "Restore" (Currently not working!)
-* Reboot server
+* Apply and restore database
 
 [1]: <https://github.com/samply/open-telekom-cloud/tree/master/modules/postgres>
