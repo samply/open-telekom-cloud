@@ -4,8 +4,6 @@ server {
     include /etc/nginx/conf.d/acme-challenge.global;
 
     location / {
-        resolver 127.0.0.11;
-        set $mdr-ui mdr-ui;
         proxy_pass http://mdr-ui:8080/;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -13,8 +11,6 @@ server {
     }
 
     location /v3 {
-        resolver 127.0.0.11;
-        set $mdr mdr;
         proxy_pass http://mdr:8080/v3;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -30,8 +26,6 @@ server {
     ssl_certificate_key /etc/nginx/ssl/live/${subdomain}.germanbiobanknode.de/privkey.pem;
 
     location / {
-        resolver 127.0.0.11;
-        set $mdr-ui mdr-ui;
         proxy_pass http://mdr-ui:8080/;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -40,8 +34,6 @@ server {
     }
 
     location /v3 {
-        resolver 127.0.0.11;
-        set $mdr mdr;
         proxy_pass http://mdr:8080/v3;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
