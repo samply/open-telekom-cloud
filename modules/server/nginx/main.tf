@@ -20,7 +20,7 @@ data "ignition_file" "acme-challenge_global" {
 data "template_file" "auth_config" {
   template = file("${path.module}/auth.conf.tmpl")
   vars = {
-    subdomain = terraform.workspace == "default" ? "auth" : format("auth.%s", terraform.workspace)
+    domain = terraform.workspace == "default" ? "auth.germanbiobanknode.de" : format("auth.%s.bbmri.de", terraform.workspace)
   }
 }
 
@@ -36,7 +36,7 @@ data "ignition_file" "auth_config" {
 data "template_file" "searchbroker_config" {
   template = file("${path.module}/searchbroker.conf.tmpl")
   vars = {
-    subdomain = terraform.workspace == "default" ? "search" : format("search.%s", terraform.workspace)
+    domain = terraform.workspace == "default" ? "search.germanbiobanknode.de" : format("samplelocator.%s.bbmri.de", terraform.workspace)
     workspace = terraform.workspace
   }
 }
@@ -53,7 +53,7 @@ data "ignition_file" "searchbroker_config" {
 data "template_file" "mdr_config" {
   template = file("${path.module}/mdr.conf.tmpl")
   vars = {
-    subdomain = terraform.workspace == "default" ? "mdr" : format("mdr.%s", terraform.workspace)
+    domain = terraform.workspace == "default" ? "mdr.germanbiobanknode.de" : format("mdr.%s.bbmri.de", terraform.workspace)
   }
 }
 

@@ -5,7 +5,7 @@ data "template_file" "searchbroker_service" {
     mail_host         = "out-cloud.mms.t-systems-service.com"
     mail_from_address = "no-reply@germanbiobanknode.de"
     mail_from_name    = "Sample Locator"
-    auth_host         = terraform.workspace == "default" ? "https://auth.germanbiobanknode.de" : format("https://auth.%s.germanbiobanknode.de", terraform.workspace)
+    auth_host         = terraform.workspace == "default" ? "https://auth.germanbiobanknode.de" : format("https://auth.%s.bbmri.de", terraform.workspace)
   }
 }
 
@@ -19,8 +19,8 @@ data "template_file" "searchbroker_ui_service" {
   vars = {
     version         = var.searchbroker-ui_version
     negotiator_url  = "https://negotiator.germanbiobanknode.de"
-    auth_host       = terraform.workspace == "default" ? "https://auth.germanbiobanknode.de" : format("https://auth.%s.germanbiobanknode.de", terraform.workspace)
-    mdr_api_url     = terraform.workspace == "default" ? "https://mdr.germanbiobanknode.de/v3/api/mdr" : format("https://mdr.%s.germanbiobanknode.de/v3/api/mdr", terraform.workspace)
+    auth_host       = terraform.workspace == "default" ? "https://auth.germanbiobanknode.de" : format("https://auth.%s.bbmri.de", terraform.workspace)
+    mdr_api_url     = terraform.workspace == "default" ? "https://mdr.germanbiobanknode.de/v3/api/mdr" : format("https://mdr.%s.bbmri.de/v3/api/mdr", terraform.workspace)
     mdr_namespace   = "mdr16"
     mdr_language    = "en"
     mdr_mapping     = "<dataElementGroup nameOfEnum=\"DONOR\">urn:mdr16:dataelementgroup:5:1</dataElementGroup><dataElementGroup nameOfEnum=\"SAMPLE_CONTEXT\">urn:mdr16:dataelementgroup:4:1</dataElementGroup><dataElementGroup nameOfEnum=\"SAMPLE\">urn:mdr16:dataelementgroup:3:1</dataElementGroup><dataElementGroup nameOfEnum=\"EVENT\">urn:mdr16:dataelementgroup:6:1</dataElementGroup>"

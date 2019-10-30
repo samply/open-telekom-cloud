@@ -66,7 +66,7 @@ GRANT ALL PRIVILEGES ON DATABASE auth TO auth_user;
 
 ## Create New Let's Encrypt Certificate
 
-Check chat the certificate isn't already known:
+Check that the certificate isn't already known:
 
 ```bash
 docker run --rm -v /etc/nginx/ssl:/etc/letsencrypt certbot/certbot:v0.36.0 certificates
