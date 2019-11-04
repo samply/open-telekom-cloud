@@ -21,6 +21,7 @@ ExecStart=/usr/bin/docker run \
   -e MDR_NAMESPACE='${mdr_namespace}' \
   -e MDR_LANGUAGE='${mdr_language}' \
   -e MDR_MAPPING='${mdr_mapping}' \
+  -e MDR_FIELD_PROPERTIES='${mdr_properties}' \
   -e MDR_HIDDEN='${mdr_hidden}' \
   -e CATALINA_OPTS='"-Xmx1g"' \
   martinbreu/searchbroker-ui:${version}
