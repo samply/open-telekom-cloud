@@ -1,6 +1,5 @@
 module "network" {
   source   = "./modules/network"
-  vpc_name = var.vpc_name
 }
 
 module "postgres" {
@@ -19,13 +18,13 @@ module "server" {
 
 locals {
   elastic_ips = {
-    "vpc-prod" = "80.158.32.82"
-    "vpc-test" = "80.158.36.176"
+    "default" = "80.158.32.82"
+    "test"    = "80.158.4.11"
   }
 }
 
 resource "opentelekomcloud_compute_floatingip_associate_v2" "server" {
-  floating_ip = local.elastic_ips[var.vpc_name]
+  floating_ip = local.elastic_ips[terraform.workspace]
   instance_id = module.server.server.id
   fixed_ip    = module.server.server.network[0].fixed_ip_v4
 }

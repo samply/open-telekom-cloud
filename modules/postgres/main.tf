@@ -11,7 +11,7 @@ resource "opentelekomcloud_rds_instance_v3" "postgres" {
     type     = "PostgreSQL"
     version  = "9.6"
   }
-  name              = "postgres"
+  name              = terraform.workspace == "default" ? "postgres" : format("postgres-%s", terraform.workspace)
   security_group_id = data.opentelekomcloud_networking_secgroup_v2.default.id
   subnet_id         = var.subnet
   vpc_id            = var.vpc

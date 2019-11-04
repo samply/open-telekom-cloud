@@ -1,5 +1,5 @@
 resource "opentelekomcloud_vpc_v1" "vpc" {
-  name = var.vpc_name
+  name = terraform.workspace == "default" ? "vpc-prod" : format("vpc-%s", terraform.workspace)
   cidr = "192.168.0.0/16"
 }
 

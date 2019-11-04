@@ -14,7 +14,7 @@ ExecStart=/usr/bin/docker run \
     -v acme-challenge:/certbot \
     certbot/certbot:${version} renew \
     --email ${email}
-ExecStartPost=/usr/bin/docker exec nginx nginx -s reload
+ExecStartPost=-/usr/bin/docker exec nginx nginx -s reload
 
 [Install]
 WantedBy=multi-user.target

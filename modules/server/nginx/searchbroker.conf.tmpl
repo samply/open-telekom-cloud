@@ -1,10 +1,14 @@
 server {
     listen 80;
-    server_name search.germanbiobanknode.de;
+    server_name ${domain};
     include /etc/nginx/conf.d/acme-challenge.global;
 
     location / {
+        %{ if workspace == "default" }
         rewrite ^ https://samplelocator.bbmri.de$request_uri? permanent;
+        %{ else }
+        rewrite ^ https://${domain}$request_uri? permanent;
+        %{ endif }
     }
 
     location /broker {
@@ -17,13 +21,21 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name search.germanbiobanknode.de;
+    server_name ${domain};
 
-    ssl_certificate     /etc/nginx/ssl/live/search.germanbiobanknode.de/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/live/search.germanbiobanknode.de/privkey.pem;
+    ssl_certificate     /etc/nginx/ssl/live/${domain}/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/live/${domain}/privkey.pem;
 
     location / {
+        %{ if workspace == "default" }
         rewrite ^ https://samplelocator.bbmri.de$request_uri? permanent;
+        %{ else }
+        proxy_pass http://searchbroker-ui:8080/;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-Proto https;
+        %{ endif }
     }
 
     location /broker {
@@ -35,6 +47,7 @@ server {
     }
 }
 
+%{ if workspace == "default" }
 server {
     listen 80;
     server_name samplelocator.bbmri.de;
@@ -68,3 +81,4 @@ server {
         proxy_set_header X-Forwarded-Proto https;
     }
 }
+%{ endif }

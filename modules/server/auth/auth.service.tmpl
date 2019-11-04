@@ -21,8 +21,8 @@ ExecStart=/usr/bin/docker run \
   -e MAIL_FROM_ADDRESS='${mail_from_address}' \
   -e MAIL_FROM_NAME='${mail_from_name}' \
   -e AUTH_HOST='${auth_host}' \
-  -e PRIVATE_KEY='$${PRIVATE_KEY}' \
-  -e PUBLIC_KEY='${auth_public_key}' \
+  -e PRIVATE_KEY='$${AUTH_PRIVATE_KEY}' \
+  -e PUBLIC_KEY='$${AUTH_PUBLIC_KEY}' \
   -e CATALINA_OPTS='"-Xmx2g"' \
   martinbreu/auth:${version}
 ExecStop=/usr/bin/docker stop auth

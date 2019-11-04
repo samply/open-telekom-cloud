@@ -13,14 +13,15 @@ ExecStart=/usr/bin/docker run \
   --network=gba \
   -e SEARCHBROKER_URL='http://searchbroker:8080/broker' \
   -e NEGOTIATOR_URL='${negotiator_url}' \
-  -e AUTH_CLIENT_ID='${auth_client_id}' \
+  -e AUTH_CLIENT_ID='$${AUTH_CLIENT_ID}' \
   -e AUTH_CLIENT_SECRET='$${AUTH_CLIENT_SECRET}' \
   -e AUTH_HOST='${auth_host}' \
-  -e AUTH_PUBLIC_KEY='${auth_public_key}' \
+  -e AUTH_PUBLIC_KEY='$${AUTH_PUBLIC_KEY}' \
   -e MDR_API_URL='${mdr_api_url}' \
   -e MDR_NAMESPACE='${mdr_namespace}' \
   -e MDR_LANGUAGE='${mdr_language}' \
   -e MDR_MAPPING='${mdr_mapping}' \
+  -e MDR_FIELD_PROPERTIES='${mdr_properties}' \
   -e MDR_HIDDEN='${mdr_hidden}' \
   -e CATALINA_OPTS='"-Xmx1g"' \
   martinbreu/searchbroker-ui:${version}

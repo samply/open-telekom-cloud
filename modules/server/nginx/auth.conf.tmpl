@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name auth.germanbiobanknode.de;
+    server_name ${domain};
     include /etc/nginx/conf.d/acme-challenge.global;
 
     location / {
@@ -13,10 +13,10 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name auth.germanbiobanknode.de;
+    server_name ${domain};
 
-    ssl_certificate     /etc/nginx/ssl/live/auth.germanbiobanknode.de/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/live/auth.germanbiobanknode.de/privkey.pem;
+    ssl_certificate     /etc/nginx/ssl/live/${domain}/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/live/${domain}/privkey.pem;
 
     location / {
         proxy_pass http://auth:8080/;
