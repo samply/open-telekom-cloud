@@ -23,26 +23,22 @@ next steps are for new user:
 
 * Add your ssh key as ignition_user and at this user to ignition_config of server for ssh access to server (main.tf)
 
+* To build a test instance, being accessible at `https:// (search | auth | mdr) .test.germanbiobanknode.de`:
 
+        terraform workspace new test
+        terraform workspace select test
+        
+* To return to productive instance:
+
+        terraform workspace select default
 
 * Init server, db, networks, ... with:
 
         terraform init
-        terraform plan -var "vpc_name=vpc-prod"
-        terraform apply -var "vpc_name=vpc-prod"
+        terraform plan
+        terraform apply
         
-* Connect to server over ssh using your username: prod=80.158.32.82, test=80.158.36.176
-
-* Test server e.g. with
-
-        docker run -it --rm -p 8888:8080 tomcat:8.0
-        
-and open http://80.158.32.82:8888 or http://80.158.36.176:8888
-
-
-* Destroy everything (time is money)
-
-        terraform destroy -var "vpc_name=vpc-prod"
+*Connect over ssh with user core@ prod=80.158.32.82 or test=80.158.4.11
 
 
 ## Managed Postgres Database
@@ -63,13 +59,14 @@ ssh -L 5432:postgres:5432 otc-server-prod
 
 ```sql
 CREATE DATABASE auth;
-CREATE USER auth WITH ENCRYPTED PASSWORD '...';
-GRANT ALL PRIVILEGES ON DATABASE auth TO auth;
+CREATE USER auth_user WITH ENCRYPTED PASSWORD '...';
+GRANT auth_user TO root;
+GRANT ALL PRIVILEGES ON DATABASE auth TO auth_user;
 ```
 
 ## Create New Let's Encrypt Certificate
 
-Check chat the certificate isn't already known:
+Check that the certificate isn't already known:
 
 ```bash
 docker run --rm -v /etc/nginx/ssl:/etc/letsencrypt certbot/certbot:v0.36.0 certificates
@@ -87,5 +84,15 @@ docker run --rm \
 ```
 
 Than do the same removing `--dry-run`
+
+### Re-destroy
+
+* In the "Volume Backup Service" section choose your previously created backup of `server-data-(test/default)`
+* Select "Restore Disk". 
+If errors occur, select "Create Disk" with same name and size, search for its id and replace <id>:
+```bash
+terraform import module.server.opentelekomcloud_blockstorage_volume_v2.data <id>
+```
+* Apply and restore database
 
 [1]: <https://github.com/samply/open-telekom-cloud/tree/master/modules/postgres>
