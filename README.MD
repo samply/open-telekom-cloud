@@ -72,16 +72,18 @@ Check that the certificate isn't already known:
 docker run --rm -v /etc/nginx/ssl:/etc/letsencrypt certbot/certbot:v0.36.0 certificates
 ```
 
-First do a dry run:
+First do a dry run for each domain:
 
 ```bash
-docker run --rm \
+docker run -it --rm \
   -v /etc/nginx/ssl:/etc/letsencrypt \
   -v acme-challenge:/certbot \
   certbot/certbot:v0.36.0 \
   certonly --dry-run --agree-tos --webroot --webroot-path /certbot \
   -d <domain>
 ```
+
+If Nginx is down because of missing certificates, uncomment all server blocks listening to 443.
 
 Than do the same removing `--dry-run`
 
