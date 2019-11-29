@@ -23,7 +23,7 @@ module "certbot" {
 module "searchbroker" {
   source                  = "./searchbroker"
   searchbroker_version    = "3.4.6"
-  searchbroker-ui_version = "3.3.1"
+  searchbroker-ui_version = "3.3.2"
 }
 
 module "mdr" {
