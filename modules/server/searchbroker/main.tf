@@ -5,7 +5,7 @@ data "template_file" "searchbroker_service" {
     mail_host         = "out-cloud.mms.t-systems-service.com"
     mail_from_address = "no-reply@germanbiobanknode.de"
     mail_from_name    = "Sample Locator"
-    auth_host         = terraform.workspace == "default" ? "https://auth.germanbiobanknode.de" : format("https://auth.%s.bbmri.de", terraform.workspace)
+    auth_host         = "https://login.bbmri-eric.eu"
   }
 }
 
@@ -19,7 +19,7 @@ data "template_file" "searchbroker_ui_service" {
   vars = {
     version         = var.searchbroker-ui_version
     negotiator_url  = "https://negotiator.germanbiobanknode.de"
-    auth_host       = terraform.workspace == "default" ? "https://auth.germanbiobanknode.de" : format("https://auth.%s.bbmri.de", terraform.workspace)
+    auth_host       = "https://login.bbmri-eric.eu"
     mdr_api_url     = terraform.workspace == "default" ? "https://mdr.germanbiobanknode.de/v3/api/mdr" : format("https://mdr.%s.bbmri.de/v3/api/mdr", terraform.workspace)
     mdr_namespace   = "mdr16"
     mdr_language    = "en"

@@ -17,22 +17,6 @@ data "ignition_file" "acme-challenge_global" {
   }
 }
 
-data "template_file" "auth_config" {
-  template = file("${path.module}/auth.conf.tmpl")
-  vars = {
-    domain = terraform.workspace == "default" ? "auth.germanbiobanknode.de" : format("auth.%s.bbmri.de", terraform.workspace)
-  }
-}
-
-data "ignition_file" "auth_config" {
-  filesystem = "root"
-  path       = "/etc/nginx/conf.d/auth.conf"
-  mode       = "0644"
-  content {
-    content = data.template_file.auth_config.rendered
-  }
-}
-
 data "template_file" "searchbroker_config" {
   template = file("${path.module}/searchbroker.conf.tmpl")
   vars = {
