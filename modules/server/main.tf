@@ -22,19 +22,14 @@ module "certbot" {
 
 module "searchbroker" {
   source                  = "./searchbroker"
-  searchbroker_version    = "3.4.6"
-  searchbroker-ui_version = "3.3.2"
+  searchbroker_version    = "3.4.7-SNAPSHOT-statistics"
+  searchbroker-ui_version = "3.4.0-SNAPSHOT"
 }
 
 module "mdr" {
   source         = "./mdr"
   mdr_version    = "4.0.4-SNAPSHOT"
   mdr-ui_version = "2.0.6-SNAPSHOT"
-}
-
-module "auth" {
-  source       = "./auth"
-  auth_version = "2.1.1-SNAPSHOT"
 }
 
 data "ignition_disk" "data" {
@@ -110,7 +105,6 @@ data "ignition_config" "server" {
     module.searchbroker.searchbroker_ui_service,
     module.mdr.mdr_service,
     module.mdr.mdr_ui_service,
-    module.auth.auth_service,
     module.certbot.certbot_service,
     module.certbot.certbot_timer,
     module.init-network.init-network_service
@@ -133,7 +127,6 @@ data "ignition_config" "server" {
   files       = [
     data.ignition_file.hostname.id,
     module.nginx.searchbroker_config_file,
-    module.nginx.auth_config_file,
     module.nginx.mdr_config_file,
     module.nginx.acme-challenge_global_file
   ]
