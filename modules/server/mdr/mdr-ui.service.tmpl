@@ -4,6 +4,7 @@ After=docker.service,haveged.service,init-network.service
 Requires=docker.service,init-network.service
 
 [Service]
+Restart=always
 EnvironmentFile=/mnt/secrets/mdr
 ExecStartPre=-/usr/bin/docker kill mdr-ui
 ExecStartPre=-/usr/bin/docker rm mdr-ui
