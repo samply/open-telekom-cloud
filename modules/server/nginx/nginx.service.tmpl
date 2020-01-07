@@ -4,6 +4,7 @@ After=docker.service,init-network.service
 Requires=docker.service,init-network.service
 
 [Service]
+Restart=always
 ExecStartPre=-/usr/bin/docker volume create acme-challenge
 ExecStartPre=-/usr/bin/docker kill nginx
 ExecStartPre=-/usr/bin/docker rm nginx

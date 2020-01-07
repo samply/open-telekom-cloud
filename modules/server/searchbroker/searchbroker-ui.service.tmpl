@@ -4,6 +4,7 @@ After=docker.service,haveged.service,init-network.service
 Requires=docker.service,init-network.service
 
 [Service]
+Restart=always
 EnvironmentFile=/mnt/secrets/searchbroker-ui
 ExecStartPre=-/usr/bin/docker kill searchbroker-ui
 ExecStartPre=-/usr/bin/docker rm searchbroker-ui
