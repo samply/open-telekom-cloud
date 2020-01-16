@@ -95,6 +95,15 @@ data "ignition_file" "hostname" {
   }
 }
 
+data "ignition_file" "maintenance" {
+  filesystem = "root"
+  path       = "/etc/coreos/update.conf"
+  mode       = "644"
+  content {
+    content = file("${path.module}/update.conf")
+  }
+}
+
 data "ignition_config" "server" {
   systemd     = [
     data.ignition_systemd_unit.mnt_secrets_mount.id,
@@ -128,7 +137,8 @@ data "ignition_config" "server" {
     data.ignition_file.hostname.id,
     module.nginx.searchbroker_config_file,
     module.nginx.mdr_config_file,
-    module.nginx.acme-challenge_global_file
+    module.nginx.acme-challenge_global_file,
+    data.ignition_file.maintenance.id
   ]
 }
 
@@ -139,7 +149,7 @@ resource "opentelekomcloud_blockstorage_volume_v2" "data" {
 
 resource "opentelekomcloud_compute_instance_v2" "server" {
   name            = format("server-%s", terraform.workspace)
-  image_name      = "container-linux-2135.4.0-2"
+  image_name      = "container-linux-2303.3.0"
   flavor_id       = "s2.medium.4"
   user_data       = data.ignition_config.server.rendered
   security_groups = [
