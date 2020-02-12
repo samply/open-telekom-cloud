@@ -21,7 +21,7 @@ data "template_file" "searchbroker_ui_service" {
     negotiator_url  = "https://negotiator.bbmri-eric.eu"
     locator_url     = terraform.workspace == "default" ? "https://samplelocator.bbmri.de" : format("https://samplelocator.%s.bbmri.de", terraform.workspace)
     auth_host       = "https://login.bbmri-eric.eu"
-    mdr_api_url     = terraform.workspace == "default" ? "https://mdr.germanbiobanknode.de/v3/api/mdr" : format("https://mdr.%s.bbmri.de/v3/api/mdr", terraform.workspace)
+    mdr_api_url     = "https://mdr.test.bbmri.de/v3/api/mdr" //TODO: terraform.workspace == "default" ? "https://mdr.germanbiobanknode.de/v3/api/mdr" : format("https://mdr.%s.bbmri.de/v3/api/mdr", terraform.workspace)
     mdr_namespace   = "mdr16"
     mdr_language    = "en"
     mdr_mapping     = "<dataElementGroup nameOfEnum=\"DONOR\">urn:mdr16:dataelementgroup:5:1</dataElementGroup><dataElementGroup nameOfEnum=\"SAMPLE\">urn:mdr16:dataelementgroup:3:1</dataElementGroup><dataElementGroup nameOfEnum=\"EVENT\">urn:mdr16:dataelementgroup:6:1</dataElementGroup>"
