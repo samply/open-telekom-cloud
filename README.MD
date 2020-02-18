@@ -38,8 +38,23 @@ next steps are for new user:
         terraform plan
         terraform apply
         
-*Connect over ssh with user core@ prod=80.158.32.82 or test=80.158.4.11
+* Connect over ssh with user core@ prod=80.158.32.82 or test=80.158.4.11
 
+
+## Container Linux Images
+
+Our VMs use Container Linux basis images. One can download them [here][2]. The images have to be imported into the OTC Image Management Service. The following steps have to be taken:
+
+* download `coreos_production_openstack_image.img.bz2` from [CoreOS][2]
+* unpack the image
+* use s3cmd to upload the image to our `coreos.obs.eu-de.otc.t-systems.com` bucket
+* create an image in Image Management Service/Private Images
+ * select the uploaded images from the bucket
+ * do not select any OS
+ * select 30 GB as disk size
+ * name the image `container-linux-<version>`
+ * submit the creation
+ 
 
 ## Managed Postgres Database
 
@@ -98,3 +113,4 @@ terraform import module.server.opentelekomcloud_blockstorage_volume_v2.data <id>
 * Apply and restore database
 
 [1]: <https://github.com/samply/open-telekom-cloud/tree/master/modules/postgres>
+[2]: <https://coreos.com/releases/>
