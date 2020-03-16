@@ -22,8 +22,8 @@ module "certbot" {
 
 module "searchbroker" {
   source                  = "./searchbroker"
-  searchbroker_version    = "4.0.0"
-  searchbroker-ui_version = "4.0.0"
+  searchbroker_version    = "angular-ui-0.0.1"
+  searchbroker-ui_version = "0.0.1"
 }
 
 module "mdr" {
