@@ -1,3 +1,3 @@
 variable "nginx_version" {
-  type        = "string"
+  type        = string
 }

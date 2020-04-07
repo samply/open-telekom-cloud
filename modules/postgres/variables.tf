@@ -1,16 +1,16 @@
 variable "vpc" {
-  type = "string"
+  type = string
 }
 
 variable "subnet" {
-  type = "string"
+  type = string
 }
 
 variable "zone" {
-  type = "string"
+  type = string
 }
 
 variable "db_passwd" {
-  type        = "string"
+  type        = string
   description = "The password of the Postgres DB."
 }
