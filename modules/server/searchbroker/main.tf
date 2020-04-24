@@ -4,7 +4,7 @@ data "template_file" "searchbroker_service" {
     version           = var.searchbroker_version
     mail_host         = "out-cloud.mms.t-systems-service.com"
     mail_from_address = "no-reply@germanbiobanknode.de"
-    mail_from_name    = "Sample Locator"
+    mail_from_name    = terraform.workspace == "default" ? "Sample Locator" : "TEST Sample Locator"
     auth_host         = "https://login.bbmri-eric.eu"
   }
 }

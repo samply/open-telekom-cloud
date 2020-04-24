@@ -8,7 +8,7 @@ Restart=always
 EnvironmentFile=/mnt/secrets/searchbroker-ui
 ExecStartPre=-/usr/bin/docker kill searchbroker-ui
 ExecStartPre=-/usr/bin/docker rm searchbroker-ui
-ExecStartPre=/usr/bin/docker pull bjoernkroll/sample-locator:${version}
+ExecStartPre=/usr/bin/docker pull samply/sample-locator:${version}
 ExecStart=/usr/bin/docker run \
   --name=searchbroker-ui \
   --network=gba \
@@ -25,7 +25,7 @@ ExecStart=/usr/bin/docker run \
   -e MDR_HIDDEN='${mdr_hidden}' \
   -e MOLGENIS_USERNAME='bbmri-directory' \
   -e MOLGENIS_PASSWORD='$${MOLGENIS_PASSWORD}' \
-  bjoernkroll/sample-locator:${version}
+  samply/sample-locator:${version}
 ExecStop=/usr/bin/docker stop searchbroker-ui
 
 [Install]
