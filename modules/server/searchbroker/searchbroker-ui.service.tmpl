@@ -8,17 +8,15 @@ Restart=always
 EnvironmentFile=/mnt/secrets/searchbroker-ui
 ExecStartPre=-/usr/bin/docker kill searchbroker-ui
 ExecStartPre=-/usr/bin/docker rm searchbroker-ui
-ExecStartPre=/usr/bin/docker pull martinbreu/searchbroker-ui:${version}
+ExecStartPre=/usr/bin/docker pull samply/sample-locator:${version}
 ExecStart=/usr/bin/docker run \
   --name=searchbroker-ui \
   --network=gba \
-  -e SEARCHBROKER_URL='http://searchbroker:8080/broker' \
+  -e SEARCHBROKER_URL='${locator_url}/broker' \
   -e SAMPLELOCATOR_URL='${locator_url}' \
   -e NEGOTIATOR_URL='${negotiator_url}' \
   -e AUTH_CLIENT_ID='$${AUTH_CLIENT_ID}' \
-  -e AUTH_CLIENT_SECRET='$${AUTH_CLIENT_SECRET}' \
   -e AUTH_HOST='${auth_host}' \
-  -e AUTH_PUBLIC_KEY='$${AUTH_PUBLIC_KEY}' \
   -e MDR_API_URL='${mdr_api_url}' \
   -e MDR_NAMESPACE='${mdr_namespace}' \
   -e MDR_LANGUAGE='${mdr_language}' \
@@ -27,8 +25,7 @@ ExecStart=/usr/bin/docker run \
   -e MDR_HIDDEN='${mdr_hidden}' \
   -e MOLGENIS_USERNAME='bbmri-directory' \
   -e MOLGENIS_PASSWORD='$${MOLGENIS_PASSWORD}' \
-  -e CATALINA_OPTS='"-Xmx1g"' \
-  martinbreu/searchbroker-ui:${version}
+  samply/sample-locator:${version}
 ExecStop=/usr/bin/docker stop searchbroker-ui
 
 [Install]

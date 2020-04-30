@@ -12,6 +12,7 @@ ExecStartPre=/usr/bin/docker pull martinbreu/searchbroker:${version}
 ExecStart=/usr/bin/docker run \
   --name=searchbroker \
   --network=gba \
+  -e STATISTICS_MAILS='$${STATISTICS_MAILS}' \
   -e POSTGRES_HOST='postgres.openstacklocal' \
   -e POSTGRES_DB='searchbroker' \
   -e POSTGRES_PORT='5432' \
