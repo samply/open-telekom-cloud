@@ -1,7 +1,7 @@
 variable "searchbroker_version" {
-  type = "string"
+  type = string
 }
 
 variable "searchbroker-ui_version" {
-  type = "string"
+  type = string
 }
