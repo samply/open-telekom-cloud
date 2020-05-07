@@ -1,7 +1,7 @@
 variable "mdr_version" {
-  type = "string"
+  type = string
 }
 
 variable "mdr-ui_version" {
-  type = "string"
+  type = string
 }
