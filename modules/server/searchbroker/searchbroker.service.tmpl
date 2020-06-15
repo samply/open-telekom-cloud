@@ -8,7 +8,7 @@ Restart=always
 EnvironmentFile=/mnt/secrets/searchbroker
 ExecStartPre=-/usr/bin/docker kill searchbroker
 ExecStartPre=-/usr/bin/docker rm searchbroker
-ExecStartPre=/usr/bin/docker pull martinbreu/searchbroker:${version}
+ExecStartPre=/usr/bin/docker pull samply/searchbroker:${version}
 ExecStart=/usr/bin/docker run \
   --name=searchbroker \
   --network=gba \
@@ -25,7 +25,7 @@ ExecStart=/usr/bin/docker run \
   -e AUTH_PUBLIC_KEY='$${AUTH_PUBLIC_KEY}' \
   -e AUTH_CLIENT_ID='$${AUTH_CLIENT_ID}' \
   -e CATALINA_OPTS='"-Xmx2g"' \
-  martinbreu/searchbroker:${version}
+  samply/searchbroker:${version}
 ExecStop=/usr/bin/docker stop searchbroker
 
 [Install]
