@@ -135,6 +135,7 @@ data "ignition_config" "server" {
   ]
   files       = [
     data.ignition_file.hostname.id,
+    module.nginx.nginx_config_file,
     module.nginx.searchbroker_config_file,
     module.nginx.mdr_config_file,
     module.nginx.acme-challenge_global_file,

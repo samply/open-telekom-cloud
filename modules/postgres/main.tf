@@ -19,7 +19,7 @@ resource "opentelekomcloud_rds_instance_v3" "postgres" {
     type = "COMMON"
     size = 40
   }
-  flavor = "rds.pg.c2.medium"
+  flavor = terraform.workspace == "default" ? "rds.pg.c2.large" : "rds.pg.c2.medium"
   backup_strategy {
     start_time = "08:00-09:00"
     keep_days  = 3
