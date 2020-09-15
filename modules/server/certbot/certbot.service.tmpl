@@ -4,8 +4,6 @@ After=docker.service,nginx.service
 Requires=docker.service,nginx.service
 
 [Service]
-Type=oneshot
-RemainAfterExit=true
 ExecStartPre=/usr/bin/docker pull certbot/certbot:${version}
 ExecStart=/usr/bin/docker run \
     --name=certbot \
