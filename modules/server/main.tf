@@ -151,7 +151,7 @@ resource "opentelekomcloud_blockstorage_volume_v2" "data" {
 resource "opentelekomcloud_compute_instance_v2" "server" {
   name            = format("server-%s", terraform.workspace)
   image_name      = "container-linux-2303.4.0"
-  flavor_id       = "s2.medium.4"
+  flavor_id       = terraform.workspace == "default" ? "s2.large.4" : "s2.medium.4"
   user_data       = data.ignition_config.server.rendered
   security_groups = [
     "default"
