@@ -1,3 +1,7 @@
+output "nginx_config_file" {
+  value = data.ignition_file.nginx_config.id
+}
+
 output "etc_nginx_dir" {
   value = data.ignition_directory.etc_nginx.id
 }

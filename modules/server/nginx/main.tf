@@ -4,6 +4,19 @@ data "ignition_directory" "etc_nginx" {
   mode       = "0755"
 }
 
+data "template_file" "nginx_config" {
+  template = file("${path.module}/nginx.conf.tmpl")
+}
+
+data "ignition_file" "nginx_config" {
+  filesystem = "root"
+  path       = "/etc/nginx/nginx.conf"
+  mode       = "0644"
+  content {
+    content = data.template_file.nginx_config.rendered
+  }
+}
+
 data "template_file" "acme-challenge_global" {
   template = file("${path.module}/acme-challenge.global.tmpl")
 }
