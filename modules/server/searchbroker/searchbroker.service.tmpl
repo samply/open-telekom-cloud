@@ -25,6 +25,13 @@ ExecStart=/usr/bin/docker run \
   -e AUTH_PUBLIC_KEY='$${AUTH_PUBLIC_KEY}' \
   -e AUTH_CLIENT_ID='$${AUTH_CLIENT_ID}' \
   -e CATALINA_OPTS='"-Xmx2g"' \
+  -e BROKER_NAME='GBA Suchbroker' \
+  -e MDR_URL='https://mdr.ccp-it.dktk.dkfz.de/v3/api/mdr/' \
+  -e ICINGA_HOST='https://monitor.vmitro.de:8443' \
+  -e ICINGA_PATH='/v1/actions/process-check-result' \
+  -e ICINGA_SITE_SUFFIX='GBA (A)' \
+  -e ICINGA_USERNAME='gba-searchbroker-java' \
+  -e ICINGA_PASSWORD='$${ICINGA_PASSWORD}' \
   samply/searchbroker:${version}
 ExecStop=/usr/bin/docker stop searchbroker
 

@@ -1,3 +1,5 @@
+limit_req_zone $binary_remote_addr zone=searchbroker_monitoring_limit:1m rate=1r/m;
+
 server {
     listen 80;
     server_name ${domain};
@@ -13,6 +15,16 @@ server {
 
     location /broker {
         proxy_pass http://searchbroker:8080/broker;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+    }
+
+    location = /broker/rest/monitoring {
+        limit_req zone=searchbroker_monitoring_limit;
+        limit_req_status 429;
+
+        proxy_pass http://searchbroker:8080/broker/rest/monitoring;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
@@ -40,6 +52,17 @@ server {
 
     location /broker {
         proxy_pass http://searchbroker:8080/broker;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+
+    location = /broker/rest/monitoring {
+        limit_req zone=searchbroker_monitoring_limit;
+        limit_req_status 429;
+
+        proxy_pass http://searchbroker:8080/broker/rest/monitoring;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
@@ -75,6 +98,17 @@ server {
 
     location /broker {
         proxy_pass http://searchbroker:8080/broker;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+
+    location = /broker/rest/monitoring {
+        limit_req zone=searchbroker_monitoring_limit;
+        limit_req_status 429;
+
+        proxy_pass http://searchbroker:8080/broker/rest/monitoring;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
