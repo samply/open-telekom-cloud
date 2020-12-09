@@ -26,7 +26,8 @@ ExecStart=/usr/bin/docker run \
   -e MOLGENIS_USERNAME='bbmri-directory' \
   -e MOLGENIS_PASSWORD='$${MOLGENIS_PASSWORD}' \
   -e FEATURE_STRATIFIER=${feature_stratifier} \
-  -e FEATURE_STRATIFIER_MIN_NO_BIOBANKS='1' \
+  -e FEATURE_STRATIFIER_MIN_NO_BIOBANKS=${stratifier_min_no_biobanks} \
+  -e TERMINOLOGY_SERVER_URL='""' \
   samply/sample-locator:${version}
 ExecStop=/usr/bin/docker stop searchbroker-ui
 
