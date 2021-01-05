@@ -1,0 +1,23 @@
+[Unit]
+Description=ICD Dictionary
+After=docker.service,haveged.service,init-network.service
+Requires=docker.service,init-network.service
+
+[Service]
+Restart=always
+EnvironmentFile=/mnt/secrets/icd-dictionary
+ExecStartPre=-/usr/bin/docker kill icd-dictionary
+ExecStartPre=-/usr/bin/docker rm icd-dictionary
+ExecStartPre=/usr/bin/docker pull samply/icd-dictionary:${version}
+ExecStart=/usr/bin/docker run \
+  --name=icd-dictionary \
+  --network=gba \
+  -e ICD_DB_HOST='postgres.openstacklocal' \
+  -e ICD_DB_NAME='icd_dictionary' \
+  -e ICD_DB_USER='icd_dictionary' \
+  -e ICD_DB_PASSWORD='$${ICD_DB_PASSWORD}' \
+  samply/icd-dictionary:${version}
+ExecStop=/usr/bin/docker stop icd-dictionary
+
+[Install]
+WantedBy=multi-user.target
