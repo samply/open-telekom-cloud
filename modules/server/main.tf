@@ -23,7 +23,12 @@ module "certbot" {
 module "searchbroker" {
   source                  = "./searchbroker"
   searchbroker_version    = "7.1.0"
-  searchbroker-ui_version = "2.0.0"
+  searchbroker-ui_version = "2.0.1"
+}
+
+module "icd_dictionary" {
+  source                  = "./icd-dictionary"
+  icd_dictionary_version  = "0.2.0"
 }
 
 module "mdr" {
@@ -112,6 +117,7 @@ data "ignition_config" "server" {
     module.haveged.haveged_service,
     module.searchbroker.searchbroker_service,
     module.searchbroker.searchbroker_ui_service,
+    module.icd_dictionary.icd_dictionary_service,
     module.mdr.mdr_service,
     module.mdr.mdr_ui_service,
     module.certbot.certbot_service,
