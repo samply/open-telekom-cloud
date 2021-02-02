@@ -15,11 +15,6 @@ module "nginx" {
   nginx_version = "1.17.1"
 }
 
-module "certbot" {
-  source          = "./certbot"
-  certbot_version = "v0.36.0"
-}
-
 module "searchbroker" {
   source                  = "./searchbroker"
   searchbroker_version    = "7.1.0"
@@ -120,8 +115,6 @@ data "ignition_config" "server" {
     module.icd_dictionary.icd_dictionary_service,
     module.mdr.mdr_service,
     module.mdr.mdr_ui_service,
-    module.certbot.certbot_service,
-    module.certbot.certbot_timer,
     module.init-network.init-network_service
   ]
   users       = [
@@ -149,36 +142,36 @@ data "ignition_config" "server" {
   ]
 }
 
-resource "opentelekomcloud_blockstorage_volume_v2" "data" {
+resource "openstack_blockstorage_volume_v2" "data" {
   name = format("server-data-%s", terraform.workspace)
   size = 10
 }
 
-resource "opentelekomcloud_compute_instance_v2" "server" {
+resource "openstack_compute_instance_v2" "server" {
   name            = format("server-%s", terraform.workspace)
-  image_name      = "container-linux-2303.4.0"
-  flavor_id       = terraform.workspace == "default" ? "s2.large.4" : "s2.medium.4"
+  image_id        = "934d4de6-b1c3-4fa4-b293-b6ffbe328b7a"
+  flavor_id       = "dkfz-2.8"
   user_data       = data.ignition_config.server.rendered
   security_groups = [
     "default"
   ]
   network {
-    uuid = var.subnet
+    name = var.subnet
   }
 }
 
-resource "opentelekomcloud_compute_volume_attach_v2" "data_attach" {
-  instance_id = opentelekomcloud_compute_instance_v2.server.id
-  volume_id   = opentelekomcloud_blockstorage_volume_v2.data.id
+resource "openstack_compute_volume_attach_v2" "data_attach" {
+  instance_id = openstack_compute_instance_v2.server.id
+  volume_id   = openstack_blockstorage_volume_v2.data.id
 }
 
-resource "opentelekomcloud_dns_recordset_v2" "server" {
+resource "openstack_dns_recordset_v2" "server" {
   zone_id     = var.zone
   name        = "server.openstacklocal."
   description = "Server"
   ttl         = 3000
   type        = "A"
   records     = [
-    opentelekomcloud_compute_instance_v2.server.network[0].fixed_ip_v4
+    openstack_compute_instance_v2.server.network[0].fixed_ip_v4
   ]
 }

@@ -1,11 +1,11 @@
-variable "otc_access_key" {
+variable "openstack_username" {
   type        = string
-  description = "The Open Telekom Cloud access key."
+  description = "The OpenStack username."
 }
 
-variable "otc_secret_key" {
+variable "openstack_password" {
   type        = string
-  description = "The Open Telekom Cloud secret key."
+  description = "The OpenStack password."
 }
 
 variable "db_passwd" {

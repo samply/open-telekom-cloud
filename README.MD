@@ -108,7 +108,7 @@ Than do the same removing `--dry-run`
 * Select "Restore Disk". 
 If errors occur, select "Create Disk" with same name and size, search for its id and replace <id>:
 ```bash
-terraform import module.server.opentelekomcloud_blockstorage_volume_v2.data <id>
+terraform import module.server.openstack_blockstorage_volume_v2.data <id>
 ```
 * Apply and restore database
 

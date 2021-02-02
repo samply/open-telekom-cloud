@@ -1,10 +1,9 @@
-provider "opentelekomcloud" {
-  access_key  = var.otc_access_key
-  secret_key  = var.otc_secret_key
-  domain_name = "OTC-EU-DE-00000000001000041103"
-  tenant_name = "eu-de"
-  auth_url    = "https://iam.eu-de.otc.t-systems.com/v3"
-  version     = "~> 1.10"
+# Configure the OpenStack Provider
+provider "openstack" {
+  user_name   = var.openstack_username
+  tenant_name = "E260-VERBIS-GBA"
+  password    = var.openstack_password
+  auth_url    = "https://cloud.dkfz-heidelberg.de:13000"
 }
 
 provider "ignition" {

@@ -1,8 +1,8 @@
-data "opentelekomcloud_networking_secgroup_v2" "default" {
+data "openstack_networking_secgroup_v2" "default" {
   name = "default"
 }
 
-resource "opentelekomcloud_rds_instance_v3" "postgres" {
+resource "openstack_rds_instance_v3" "postgres" {
   availability_zone = [
     "eu-de-01"
   ]
@@ -12,7 +12,7 @@ resource "opentelekomcloud_rds_instance_v3" "postgres" {
     version  = "9.6"
   }
   name              = terraform.workspace == "default" ? "postgres" : format("postgres-%s", terraform.workspace)
-  security_group_id = data.opentelekomcloud_networking_secgroup_v2.default.id
+  security_group_id = data.openstack_networking_secgroup_v2.default.id
   subnet_id         = var.subnet
   vpc_id            = var.vpc
   volume {
@@ -26,12 +26,12 @@ resource "opentelekomcloud_rds_instance_v3" "postgres" {
   }
 }
 
-resource "opentelekomcloud_dns_recordset_v2" "postgres" {
+resource "openstack_dns_recordset_v2" "postgres" {
   zone_id     = var.zone
   name        = "postgres.openstacklocal."
   description = "Postgres"
   ttl         = 3000
   type        = "A"
-  records     = opentelekomcloud_rds_instance_v3.postgres.private_ips
+  records     = openstack_rds_instance_v3.postgres.private_ips
 }
 
