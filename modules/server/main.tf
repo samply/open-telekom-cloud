@@ -142,7 +142,7 @@ data "ignition_config" "server" {
   ]
 }
 
-resource "openstack_blockstorage_volume_v2" "data" {
+resource "openstack_compute_instance_v2" "data" {
   name = format("server-data-%s", terraform.workspace)
   size = 10
 }
