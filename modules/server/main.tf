@@ -22,7 +22,7 @@ module "certbot" {
 
 module "searchbroker" {
   source                  = "./searchbroker"
-  searchbroker_version    = "7.1.0"
+  searchbroker_version    = "8.1.1"
   searchbroker-ui_version = "2.0.1"
 }
 
