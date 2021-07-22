@@ -22,13 +22,13 @@ module "certbot" {
 
 module "searchbroker" {
   source                  = "./searchbroker"
-  searchbroker_version    = "7.1.0"
+  searchbroker_version    = "8.1.1"
   searchbroker-ui_version = "2.0.1"
 }
 
 module "icd_dictionary" {
   source                  = "./icd-dictionary"
-  icd_dictionary_version  = "0.2.0"
+  icd_dictionary_version  = "0.3.1"
 }
 
 module "mdr" {
@@ -109,6 +109,15 @@ data "ignition_file" "maintenance" {
   }
 }
 
+data "ignition_file" "docker_daemon" {
+  filesystem = "root"
+  path       = "/etc/docker/daemon.json"
+  mode       = "644"
+  content {
+    content = file("${path.module}/daemon.json")
+  }
+}
+
 data "ignition_config" "server" {
   systemd     = [
     data.ignition_systemd_unit.mnt_secrets_mount.id,
@@ -145,7 +154,8 @@ data "ignition_config" "server" {
     module.nginx.searchbroker_config_file,
     module.nginx.mdr_config_file,
     module.nginx.acme-challenge_global_file,
-    data.ignition_file.maintenance.id
+    data.ignition_file.maintenance.id,
+    data.ignition_file.docker_daemon.id
   ]
 }
 

@@ -32,6 +32,7 @@ ExecStart=/usr/bin/docker run \
   -e ICINGA_SITE_SUFFIX='GBA (A)' \
   -e ICINGA_USERNAME='gba-searchbroker-java' \
   -e ICINGA_PASSWORD='$${ICINGA_PASSWORD}' \
+  -e FEATURE_CREATE_NEW_SITE='true' \
   samply/searchbroker:${version}
 ExecStop=/usr/bin/docker stop searchbroker
 
