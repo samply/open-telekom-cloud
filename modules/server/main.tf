@@ -109,6 +109,15 @@ data "ignition_file" "maintenance" {
   }
 }
 
+data "ignition_file" "docker_daemon" {
+  filesystem = "root"
+  path       = "/etc/docker/daemon.json"
+  mode       = "644"
+  content {
+    content = file("${path.module}/daemon.json")
+  }
+}
+
 data "ignition_config" "server" {
   systemd     = [
     data.ignition_systemd_unit.mnt_secrets_mount.id,
@@ -145,7 +154,8 @@ data "ignition_config" "server" {
     module.nginx.searchbroker_config_file,
     module.nginx.mdr_config_file,
     module.nginx.acme-challenge_global_file,
-    data.ignition_file.maintenance.id
+    data.ignition_file.maintenance.id,
+    data.ignition_file.docker_daemon.id
   ]
 }
 
