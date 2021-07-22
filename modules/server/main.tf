@@ -28,7 +28,7 @@ module "searchbroker" {
 
 module "icd_dictionary" {
   source                  = "./icd-dictionary"
-  icd_dictionary_version  = "0.2.0"
+  icd_dictionary_version  = "0.3.1"
 }
 
 module "mdr" {
