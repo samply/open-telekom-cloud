@@ -1,3 +1,3 @@
 output "core" {
-  value = data.ignition_user.core.id
+  value = data.ignition_user.core.rendered
 }

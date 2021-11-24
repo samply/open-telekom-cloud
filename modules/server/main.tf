@@ -120,8 +120,8 @@ data "ignition_file" "docker_daemon" {
 
 data "ignition_config" "server" {
   systemd     = [
-    data.ignition_systemd_unit.mnt_secrets_mount.id,
-    data.ignition_systemd_unit.etc_nginx_ssl_mount.id,
+    data.ignition_systemd_unit.mnt_secrets_mount.rendered,
+    data.ignition_systemd_unit.etc_nginx_ssl_mount.rendered,
     module.nginx.nginx_service,
     module.haveged.haveged_service,
     module.searchbroker.searchbroker_service,
@@ -137,25 +137,25 @@ data "ignition_config" "server" {
     module.users.core
   ]
   disks = [
-    data.ignition_disk.data.id
+    data.ignition_disk.data.rendered
   ]
   filesystems = [
-    data.ignition_filesystem.secrets.id,
-    data.ignition_filesystem.ssl.id
+    data.ignition_filesystem.secrets.rendered,
+    data.ignition_filesystem.ssl.rendered
   ]
   directories = [
-    data.ignition_directory.secrets_mount_point_folder.id,
-    data.ignition_directory.ssl_mount_point_folder.id,
+    data.ignition_directory.secrets_mount_point_folder.rendered,
+    data.ignition_directory.ssl_mount_point_folder.rendered,
     module.nginx.etc_nginx_dir
   ]
   files       = [
-    data.ignition_file.hostname.id,
+    data.ignition_file.hostname.rendered,
     module.nginx.nginx_config_file,
     module.nginx.searchbroker_config_file,
     module.nginx.mdr_config_file,
     module.nginx.acme-challenge_global_file,
-    data.ignition_file.maintenance.id,
-    data.ignition_file.docker_daemon.id
+    data.ignition_file.maintenance.rendered,
+    data.ignition_file.docker_daemon.rendered
   ]
 }
 
