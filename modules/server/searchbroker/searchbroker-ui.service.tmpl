@@ -28,6 +28,14 @@ ExecStart=/usr/bin/docker run \
   -e FEATURE_STRATIFIER=${feature_stratifier} \
   -e FEATURE_STRATIFIER_MIN_NO_BIOBANKS=${stratifier_min_no_biobanks} \
   -e TERMINOLOGY_SERVER_URL='/icd10' \
+  -e BRANDING_UI='GBA' \
+  -e BRANDING_TITLE='GBA Locator' \
+  -e FAVICON_URL='favicon.ico' \
+  -e META_DESCRIPTION='The Sample Locator enables scientists to search for biosamples and related data across multiple academic biobanks.' \
+  -e ABOUT_US_URL='/about-us' \
+  -e CONTACT_URL='/imprint' \
+  -e CONTACT_TEXT='Imprint' \
+  -e PRIVACY_URL='/privacy' \
   samply/sample-locator:${version}
 ExecStop=/usr/bin/docker stop searchbroker-ui
 
