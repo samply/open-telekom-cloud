@@ -33,8 +33,8 @@ module "icd_dictionary" {
 
 module "mdr" {
   source         = "./mdr"
-  mdr_version    = "4.0.4-SNAPSHOT"
-  mdr-ui_version = "2.0.6-SNAPSHOT"
+  mdr_version    = "release-gba-mdr"
+  mdr-ui_version = "master"
 }
 
 data "ignition_disk" "data" {
