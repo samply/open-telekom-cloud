@@ -8,7 +8,7 @@ Restart=always
 EnvironmentFile=/mnt/secrets/mdr
 ExecStartPre=-/usr/bin/docker kill mdr-ui
 ExecStartPre=-/usr/bin/docker rm mdr-ui
-ExecStartPre=/usr/bin/docker pull martinbreu/mdr-ui:${version}
+ExecStartPre=/usr/bin/docker pull docker.verbis.dkfz.de/ccp/mdr:${version}
 ExecStart=/usr/bin/docker run \
   --name=mdr-ui \
   --network=gba \
@@ -23,7 +23,7 @@ ExecStart=/usr/bin/docker run \
   -e AUTH_CLIENT_ID='$${AUTH_CLIENT_ID}' \
   -e AUTH_CLIENT_SECRET='$${AUTH_CLIENT_SECRET}' \
   -e CATALINA_OPTS='"-Xmx2g"' \
-  martinbreu/mdr-ui:${version}
+  docker.verbis.dkfz.de/ccp/mdr:${version}
 ExecStop=/usr/bin/docker stop mdr-ui
 
 [Install]
