@@ -8,22 +8,22 @@ Restart=always
 EnvironmentFile=/mnt/secrets/mdr
 ExecStartPre=-/usr/bin/docker kill mdr
 ExecStartPre=-/usr/bin/docker rm mdr
-ExecStartPre=/usr/bin/docker pull martinbreu/mdr:${version}
+ExecStartPre=/usr/bin/docker pull docker.verbis.dkfz.de/ccp/mdr-rest:${version}
 ExecStart=/usr/bin/docker run \
   --name=mdr \
   --network=gba \
   -e TOMCAT_USERNAME='admin' \
   -e TOMCAT_PASSWORD='$${TOMCAT_PASS}' \
-  -e POSTGRES_HOST='postgres.openstacklocal' \
-  -e POSTGRES_DB='mdr_db' \
-  -e POSTGRES_USER='mdr' \
-  -e POSTGRES_PASS='$${POSTGRES_PASS}' \
+  -e DB_HOST='postgres.openstacklocal' \
+  -e DB_NAME='mdr_db' \
+  -e DB_USER='mdr' \
+  -e DB_PASSWORD='$${POSTGRES_PASS}' \
   -e AUTH_HOST='${auth_host}' \
-  -e AUTH_PUBLIC_KEY='$${AUTH_PUBLIC_KEY}' \
+  -e AUTH_PUBKEY='$${AUTH_PUBLIC_KEY}' \
   -e AUTH_CLIENT_ID='$${AUTH_CLIENT_ID}' \
   -e AUTH_CLIENT_SECRET='$${AUTH_CLIENT_SECRET}' \
   -e CATALINA_OPTS='"-Xmx2g"' \
-  martinbreu/mdr:${version}
+  docker.verbis.dkfz.de/ccp/mdr-rest:${version}
 ExecStop=/usr/bin/docker stop mdr
 
 [Install]
