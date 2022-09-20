@@ -4,7 +4,7 @@ provider "opentelekomcloud" {
   domain_name = "OTC-EU-DE-00000000001000041103"
   tenant_name = "eu-de"
   auth_url    = "https://iam.eu-de.otc.t-systems.com/v3"
-  version     = "~> 1.10"
+  version     = "1.31.3"
 }
 
 provider "ignition" {
